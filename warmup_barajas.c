@@ -98,6 +98,13 @@ int exam02(void)
     int x = 9302;
     int digits = 0;
 
+    while (x != 0) {
+        x /= 10;
+        digits++;
+    }
+
+    printf("Digitos: %d\n",digits);
+
     return 0;
 }
 
@@ -106,6 +113,25 @@ int exam02(void)
 */
 int exam03(void)
 {
+
+    int scores[] = {9,8,10,6,4};
+
+    int avg = 0;
+    int max = scores[0];
+
+    int tam = sizeof(scores)/sizeof(scores[0]);
+
+    for (int i = 0; i <tam;i++){
+        avg += scores[i];
+        if (scores[i] > max){
+            max = scores[i];
+        }
+    }
+    avg = avg / tam;
+
+    printf("Average: %d\n",avg);
+    printf("MAX: %d\n",max);
+
 
     return 0;
 }
@@ -128,6 +154,21 @@ int exam03(void)
 int exam04(void)
 {
 
+    typedef struct{
+        char name [16];
+        float price;
+        int qty;
+    }GroceryItem;
+
+    GroceryItem item;
+    item.name[0] = "Apple";
+    item.price = 2.5;
+    item.qty   = 4;
+
+
+ 
+
+
     return 0;
 }
 
@@ -148,6 +189,7 @@ int exam04(void)
 
 int exam05(void)
 {
+    
     int data[] = {4, 9, 1, 9, 2, 9};
     int n = (int)(sizeof(data)/sizeof(data[0]));
     int target = 9;
