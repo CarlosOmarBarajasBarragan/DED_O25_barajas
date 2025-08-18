@@ -1,0 +1,13 @@
+hola
+
+pwd: me da el directorio actual
+cd: entrar a un archivo
+ls: listar archivos en la carpeta
+
+
+Compilar:
+gcc (nombre con terminación c) -o (nombre del archivo en exe)
+
+
+Correr:
+./(Nombre del archivo con terminación exe)
