@@ -166,9 +166,6 @@ int exam04(void)
     item.qty   = 4;
 
 
- 
-
-
     return 0;
 }
 
