@@ -116,20 +116,23 @@ int exam03(void)
 
     int scores[] = {9,8,10,6,4};
 
-    int avg = 0;
+    float avg = 0;
     int max = scores[0];
 
-    int tam = sizeof(scores)/sizeof(scores[0]);
+    int tam = (int)(sizeof(scores)/sizeof(scores[0]));
 
-    for (int i = 0; i <tam;i++){
+
+
+    for (int i = 0; i < tam ;i++){
         avg += scores[i];
+
         if (scores[i] > max){
             max = scores[i];
         }
     }
     avg = avg / tam;
 
-    printf("Average: %d\n",avg);
+    printf("Average: %.2f\n",avg);
     printf("MAX: %d\n",max);
 
 
@@ -160,11 +163,14 @@ int exam04(void)
         int qty;
     }GroceryItem;
 
+    /*
+
     GroceryItem item;
     item.name[0] = "Apple";
     item.price = 2.5;
     item.qty   = 4;
 
+    */
 
     return 0;
 }
