@@ -27,24 +27,24 @@ temp = *n1;
 
 }
 
-void blackjack(n1,n2, char * game){
+void blackjack(int * n1,int * n2, char * game){
 
-  n2 = n1 + n2;
+  *n2 = *n1 + *n2;
 
-    if (n2 > 0){
+    if (*n2 > 0){
 
-      return 1;
+      *game = '1';
 
-      if (n2 == 21){
-        &game = 'W';
+      if (*n2 == 21){
+        *game = 'W';
 
       }
     }
     else {
-      return 0;
+    
+      *game = '0';
+
     }
-
-
 
 }
 
@@ -53,7 +53,7 @@ int main()
 
   /* Exercise 1:  swap num1 and num2 value */
   int num1 = 1;
-  int num2 = 20;
+  int num2 = 24;
 
   int * ptr1 = &num1;
   int * ptr2 = &num2;
@@ -67,12 +67,14 @@ int main()
     Call and test your program here */
   char flag = '0';  //init value
 
+  char * ptrflag = &flag;
+
+  blackjack(ptr1,ptr2, ptrflag);
+
+  printf("Valor final = %d Resultado = %c", num2,flag);
 
   int result; 
-  //result = blackjack( /*COMPLETE*/ );
-
-  //Validate that the flag was correctly set, try it with different
-  //numbers.
+  
   
   return 0;
 }
