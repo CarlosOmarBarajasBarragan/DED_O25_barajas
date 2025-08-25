@@ -11,7 +11,7 @@
 
 Create a blackjack function that:
   -receives 2 numbers and a FLAG (char)
-  -returns 1 of the sum of the numbers is positive (greater than 0).
+  -returns 1 if the sum of the numbers is positive (greater than 0).
   -returns 0 if the sum of the numbers is negative.
   -Stores the sum of the two numbers in number2.
   -If the sum is 21, set the FLAG to = 'W' (winner)
@@ -24,6 +24,27 @@ int temp;
 temp = *n1;
 *n1 = *n2;
 *n2 = temp;
+
+}
+
+void blackjack(n1,n2, char * game){
+
+  n2 = n1 + n2;
+
+    if (n2 > 0){
+
+      return 1;
+
+      if (n2 == 21){
+        &game = 'W';
+
+      }
+    }
+    else {
+      return 0;
+    }
+
+
 
 }
 
@@ -45,6 +66,7 @@ int main()
   /* Exercise 2:  Blackjack 
     Call and test your program here */
   char flag = '0';  //init value
+
 
   int result; 
   //result = blackjack( /*COMPLETE*/ );
