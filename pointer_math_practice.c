@@ -14,7 +14,9 @@ int main()
 {
 
   ex01();
- 
+ printf("-----------------------------------------------------------------------------------------------\n");
+  ex02();
+
   return 0;
 }
 
@@ -34,23 +36,28 @@ void ex01()
 
 }
 
-  /* Excercise 02:
-  Implement a function mylenght() that returns the size of the passed 
-  string (char array). DO NOT USE strlen(), use only pointer arithmetic.
-
-  DO NOT USE BRACKETS [ ]
-
-  TIP: all strings are array of chars, terminated by '\0' character.
-*/
-
 void ex02()
 {
 
   char name[400];
-  int ret;
-  
-  //TRY ME HERE:
 
+  strcpy(name,"Prueba01");
+
+  char *nameptr = name;
+
+  int i  = 0;
+
+  for (i ; i<(sizeof(name)); i++){
+    
+    if ((*(nameptr+i)) =='\0'){
+      break;
+    }
+    i++;
+  }
+
+  int ret = i;
+  printf("Tamano del string = %d", ret);
+  
 }
 
 /* More practice excerises (similar to Ex02)
