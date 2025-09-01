@@ -47,6 +47,7 @@
 
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef struct vehicle
@@ -61,11 +62,17 @@ void vehicle_set(){
 
 int main()
 {
+   vehicle v1;
+
+   struct vehicle * str_ptr = &v1;
+
    char marca_user[20]; 
-   scanf("Dime la marca del vehiculo: ",&marca_user);
+   printf("Dime la marca del vehiculo: ");
+   scanf("%s", marca_user);
 
    int año_user;
-   scanf("Dime la marca del vehiculo: ",&año_user);
+   printf("Dime el ano del vehiculo: ");
+   scanf("%d ",&año_user);
 
 
 /*

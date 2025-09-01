@@ -8,7 +8,7 @@ void ex01();
 void ex02();
 void upper_to_lower(char*);
 void ex03();
-//void ex04();
+void ex04();
 
 int main()
 {
@@ -18,6 +18,8 @@ int main()
   ex02();
   printf("-----------------------------------------------------------------------------------------------\n");
   ex03();
+  printf("-----------------------------------------------------------------------------------------------\n");
+  ex04();
 
   return 0;
 }
@@ -58,7 +60,7 @@ void ex02()
   }
 
   int ret = i;
-  printf("Tamano del string = %d", ret);
+  printf("Tamano del string = %d\n", ret);
   
 }
 
@@ -69,15 +71,17 @@ void ex03()
 
   char * ptr_array = array;
 
-  printf("tamano array: %d\n",(sizeof(array)/sizeof(array[10])));
+  int len = (sizeof(array)/sizeof(array[0]));
 
-  for (int i = 0; i<((sizeof(array)/sizeof(array[0]))-1); i++ ){
-      if(65<(*(ptr_array)) && (*(ptr_array))<90){
+  for (int i = 0; i<len; i++ ){
+      if(('A'<(*ptr_array)) && ((*ptr_array)<'Z')){
         *ptr_array += 32; 
       }
-      printf("%c",*ptr_array);
-  }
 
+      printf("%c",*ptr_array);
+      ptr_array++;
+  }
+  printf("\n");
 }
 /* Exercise 04
 
@@ -85,3 +89,26 @@ void ex03()
   if its a binary number (must be formed of only 1s and 0s).
 */
   
+void ex04()
+{
+
+  char array [] = "01a10";
+
+  char * ptr_array = array;
+
+  int len = sizeof(array);
+
+
+  for (int i = 0; i<(len-1); i++ ){
+      if(*ptr_array=='\0'){
+        continue;
+      }
+      if(((*ptr_array) != '1') && ((*ptr_array) != '0')){
+             printf("no es binario, %c no es 0 ni 1\n",*ptr_array);
+      }
+      
+ 
+      ptr_array++;
+  }
+ printf("%s si es binario\n", array);
+}
