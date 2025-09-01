@@ -7,15 +7,17 @@
 void ex01();
 void ex02();
 void upper_to_lower(char*);
-//void ex03();
+void ex03();
 //void ex04();
 
 int main()
 {
 
   ex01();
- printf("-----------------------------------------------------------------------------------------------\n");
+  printf("-----------------------------------------------------------------------------------------------\n");
   ex02();
+  printf("-----------------------------------------------------------------------------------------------\n");
+  ex03();
 
   return 0;
 }
@@ -60,19 +62,25 @@ void ex02()
   
 }
 
-/* More practice excerises (similar to Ex02)
+void ex03()
+{
 
-  NOTA :  DO NOT USE [BRACKETS] in any function
-  
-  Excercise 03
-  Implement a function that receives an array, traverses the array
-  chaging all letters in CAPs to Lowercase.
-  The array must be printed in the main loop to verify the results.
-  TIP: See ASCII table
-  
-*/
+  char array [] = {'H','o','l','a',' ','M','u','n','d','o',};
 
+  char * ptr_array = array;
+
+  printf("tamano array: %d\n",(sizeof(array)/sizeof(array[10])));
+
+  for (int i = 0; i<((sizeof(array)/sizeof(array[0]))-1); i++ ){
+      if(65<(*(ptr_array)) && (*(ptr_array))<90){
+        *ptr_array += 32; 
+      }
+      printf("%c",*ptr_array);
+  }
+
+}
 /* Exercise 04
+
   Implement an isBinary function that receives a string and determines
   if its a binary number (must be formed of only 1s and 0s).
 */
