@@ -50,38 +50,59 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct vehicle
-{
-  char brand[20];
-  int year;
-} vehicle;
+   typedef struct vehicle{
+   char brand[20];
+   int year;
+   } vehicle;
 
-void vehicle_set(){
-
+void vehicle_set(vehicle* car_ptr,char* name ,int year){
+   strcpy(car_ptr->brand,name);
+   car_ptr->year = year;
 }
 
-int main()
-{
-   vehicle v1;
+void print_lot(vehicle * car_ptr, int len){
 
-   struct vehicle * str_ptr = &v1;
+   for(int i = 0; i<len;i++){
+      printf("Brand: %s, year %d\n", (car_ptr+i)->brand, (car_ptr+i)->year);
+   }
 
-   char marca_user[20]; 
-   printf("Dime la marca del vehiculo: ");
-   scanf("%s", marca_user);
+};
 
-   int año_user;
-   printf("Dime el ano del vehiculo: ");
-   scanf("%d ",&año_user);
+int main(){
+   
+   vehicle vehicle_array [4];
 
+   vehicle *car_ptr = vehicle_array;
 
-/*
    vehicle v1;
    strcpy(v1.brand,"Ford");
-   v1.year = "2001"; 
-*/
+   v1.year = 2001; 
 
-   vehicle vehicle_array [4];
+   *car_ptr = v1;
+
+   int len = sizeof(vehicle_array)/sizeof(vehicle_array[0]);
+
+   for (int i = 1; i<len; i++){
+      char marca[20];
+      char * ptr_marca = marca;
+      int anio;
+
+      printf("Escribe la marca del auto %d: ",i);
+      scanf("%s", marca);
+      fflush(stdout);
+   
+
+
+      printf("Escribe el anio del auto %d: ",i);
+      scanf("%d", &anio);
+      fflush(stdout);
+    
+
+      vehicle_set(car_ptr+i,ptr_marca,anio);
+
+   }
+
+   print_lot(car_ptr,len);
 
    return 0;
 }
