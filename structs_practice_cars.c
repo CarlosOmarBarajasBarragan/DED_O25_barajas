@@ -50,6 +50,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
    typedef struct vehicle{
    char brand[20];
    int year;
@@ -65,6 +66,23 @@ void print_lot(vehicle * car_ptr, int len){
    for(int i = 0; i<len;i++){
       printf("Brand: %s, year %d\n", (car_ptr+i)->brand, (car_ptr+i)->year);
    }
+
+};
+
+int oldest_year(vehicle * car_ptr, int len){
+
+   int old = 9999;
+   char oldest_buffer[20];
+
+   for (int i = 0; i<len; i++){
+      if ((car_ptr+i)->year < old) {
+         old= (car_ptr+i)->year;
+         strcpy(oldest_buffer,(car_ptr+i)->brand);
+      }
+   }
+
+   printf("Oldest car: %s \n",oldest_buffer);
+   return old;
 
 };
 
@@ -103,6 +121,7 @@ int main(){
    }
 
    print_lot(car_ptr,len);
+   oldest_year(car_ptr,len);
 
    return 0;
 }
