@@ -92,12 +92,13 @@ void ex03()
 void ex04()
 {
 
-  char array [] = "01a10";
+  char array [] = "010f0";
 
   char * ptr_array = array;
 
   int len = sizeof(array);
 
+  int valid = 1;
 
   for (int i = 0; i<(len-1); i++ ){
       if(*ptr_array=='\0'){
@@ -105,10 +106,16 @@ void ex04()
       }
       if(((*ptr_array) != '1') && ((*ptr_array) != '0')){
              printf("no es binario, %c no es 0 ni 1\n",*ptr_array);
+             valid = 0;
       }
-      
  
       ptr_array++;
   }
- printf("%s si es binario\n", array);
+ 
+  if (valid == 1){
+
+        printf("%s si es binario\n", array);
+
+  }
+
 }
