@@ -1,17 +1,25 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int main(){
-    int scores[] = {9,8,10,6,4};
-
-    int avg = 0;
-    int max = scores[0];
+void main() {
+    int array[] = {4, 9, 1, 9, 2, 9};
     
-    int x = sizeof(scores)/sizeof(scores[0]);
-
-    printf("Size of scores array: %d\n", x);
+    int n = sizeof(array) / sizeof(array[0]);
 
 
-        return 0;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                
+                int temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
 
+    printf("Arreglo ordenado: ");
+    for (int k = 0; k < n; k++) {
+        printf("%d", array[k]);
+    }
+    printf("\n");
 }

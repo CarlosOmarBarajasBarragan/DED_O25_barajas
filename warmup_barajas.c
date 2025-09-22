@@ -154,23 +154,29 @@ int exam03(void)
    function, then test it inside EX04
 */
 
-int exam04(void)
-{
 
-    typedef struct{
+    typedef struct GroceryItem{
         char name [16];
         float price;
         int qty;
     }GroceryItem;
 
-    /*
+
+void line_total (GroceryItem Item){
+
+    printf("%.2f\n",(Item.price*(int)Item.qty));
+
+}
+
+int exam04(void)
+{
 
     GroceryItem item;
-    item.name[0] = "Apple";
+    strcpy(item.name,"Apple");
     item.price = 2.5;
     item.qty   = 4;
 
-    */
+    line_total(item);
 
     return 0;
 }
@@ -190,12 +196,27 @@ int exam04(void)
     complexity?
 */
 
+int find_first(int array[], int size, int target ){
+    
+    for(int i = 0;i<size;i++){
+        if (array[i] == target){
+            return (i+1);
+            break;
+        }
+    }
+            return -1;
+        
+}
+
 int exam05(void)
 {
     
     int data[] = {4, 9, 1, 9, 2, 9};
     int n = (int)(sizeof(data)/sizeof(data[0]));
     int target = 9;
-    //int idx = // Call your function
+    int idx = find_first(data, n, target);
+
+    printf("%d",idx);
+
     return 0;
 }
