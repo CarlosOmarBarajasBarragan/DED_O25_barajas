@@ -109,10 +109,6 @@ int main(){
     }
 
 
-    *battle_ptr = Pikachu;
-    *(battle_ptr+1) = Charmander;
-
-
     while (battle[0].hp>0 ||battle[1].hp>0){
 
         break;
