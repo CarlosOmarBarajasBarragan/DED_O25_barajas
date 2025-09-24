@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <windows.h> 
 
 typedef struct pokemon{
     char name[20];
@@ -50,6 +51,7 @@ void pokemon_set(int id){
 
 
 int main(){
+   
 
     srand(time(NULL));
 
@@ -58,7 +60,7 @@ int main(){
         .defensa = 0,
         .dormir = 0,
         .veneno = 0,
-        .hp = 110,
+        .hp = 30,//110
         .action = { attack, block,NULL,NULL,NULL }
     };
 
@@ -174,8 +176,14 @@ int main(){
 
         battle[0].action[opcion_atque](battle_ptr,battle_ptr+1);
 
-        turno+=1;
+        // -----------Turno Bot-----------//
+        Sleep(3000);// son en milisegundos
+        printf("Turno del enemigo \n");
 
+
+
+
+        turno+=1;
         printf("\n");
     }
 
