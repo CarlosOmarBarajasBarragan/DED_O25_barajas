@@ -5,6 +5,7 @@
 #include <time.h>
 #include <windows.h> 
 
+
 typedef struct pokemon{
     char name[20];
     // poner de estados y resetear en el while
@@ -124,6 +125,9 @@ void pokemon_preview(pokemon * battle_ptr){
    printf("\n");
 }
 
+void limpiar_pantalla(){
+    system("cls");
+}
 
 
 
@@ -180,6 +184,10 @@ int main(){
 
     // Solo muestra los pokemones
    pokemon_preview(battle_ptr);
+   printf("Presiona enter para continuar\n");
+   getchar();
+   getchar();
+   limpiar_pantalla();
     // Declara nombres ataques
     char atq1[10] ="Ataque";
     char atq2[10] = "Defensa";
@@ -194,6 +202,9 @@ int main(){
 
     while (battle[0].hp>0 && battle[1].hp>0){ 
 
+        // Hacer que se limpie la terminal, que se vea bonito
+       limpiar_pantalla();
+
         int definir_turno = (turno%2);
 
         printf("Detalles de la partida: \n");
@@ -203,6 +214,8 @@ int main(){
         printf("(Enemigo) %s Salud : %d\n",(battle+1)->name, (battle+1)->hp);
 
         ptr_nombres=nombres_ataques;
+
+       
 
         if (definir_turno == 1){
             
@@ -223,10 +236,6 @@ int main(){
 
         }
         else if (definir_turno == 0){
-
-       
-
-
             
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
@@ -236,9 +245,9 @@ int main(){
             
             
             opcion_atque = rand()%1;
+            // Sleep(4000);
             getchar();
             
-            // Sleep(4000);
 
             battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno), definir_turno,diferenciador(definir_turno));
 
@@ -246,11 +255,6 @@ int main(){
             getchar();
 
             }
-
-
-         
-
-        
 
         turno+=1;
         printf("\n");
