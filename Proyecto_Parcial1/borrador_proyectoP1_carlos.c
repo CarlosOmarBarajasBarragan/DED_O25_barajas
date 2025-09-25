@@ -11,9 +11,9 @@ typedef struct pokemon{
     int hp;
     int dormir;
     int defensa;
-    int veneno;
+    int veneno; 
     void (*action[5])(struct pokemon* pokemon_jugador, struct pokemon* pokemon_enemigo);
-
+    // void (*action[5]) (void*)
 }pokemon;
 
 char param[12];
@@ -27,7 +27,7 @@ void attack(pokemon * pokemon_jugador,pokemon * pokemon_enemigo){
         pokemon_enemigo->hp-=10;
     }
     
-    printf("%s aliado ataco a %s enemigo\n",pokemon_jugador,pokemon_enemigo);
+    printf("%s aliado ataco a %s enemigo\n",pokemon_jugador->name,pokemon_enemigo->name);
     printf("%s enemigo tiene ahora %d HP\n",pokemon_enemigo->name,pokemon_enemigo->hp);
 }
 
@@ -118,7 +118,7 @@ int diferenciador (int definir_turno){
     if (definir_turno == 0){
         return 1;
     }
-    else if (definir_turno ==1){
+    else{
         return 0;
     }
 
@@ -217,22 +217,24 @@ int main(){
         }
         else if (definir_turno == 0){
 
-        Sleep(4000);
+       
 
-        printf("\n");
-        printf("Turno %s\n",mostrar_turno(definir_turno,param_ptr));
-        printf("%s elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+definir_turno)->name);
-        for (int i = 0; i < 5; i++,ptr_nombres++)
-        {
-            printf("%d. %s\n",i,*ptr_nombres);
-        }
-        
-        opcion_atque = rand()%1;
-        getchar();
 
-        battle[definir_turno].action[opcion_atque]((battle_ptr+definir_turno),(battle_ptr+diferenciador(definir_turno)));
+            
+            printf("\n");
+            printf("Turno %s\n",mostrar_turno(definir_turno,param_ptr));
+            printf("%s eligiendo el ataque de su %s\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+definir_turno)->name);
+            printf("Enemigo pensando\n");
+            
+            
+            opcion_atque = rand()%1;
+            getchar();
+            getchar();
+            // Sleep(4000);
 
-        }
+            battle[definir_turno].action[opcion_atque]((battle_ptr+definir_turno),(battle_ptr+diferenciador(definir_turno)));
+
+            }
 
 
          
