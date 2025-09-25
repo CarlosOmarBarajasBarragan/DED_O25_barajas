@@ -13,7 +13,7 @@ typedef struct pokemon{
     int defensa;
     int veneno; 
     void (*action[5])(struct pokemon* pokemon_jugador, struct pokemon* pokemon_enemigo, int id_a, int id_d);
-    void (*action[5]) (void*)
+    /*void (*action[5]) (void*) */
 }pokemon;
 
 char param[12];
@@ -169,7 +169,8 @@ int main(){
     pokemon battle [2];
     pokemon * battle_ptr = battle;
 
-    void * v_array[7]= {};
+    /*void * v_array[7]= {};*/
+
 
    pokemon pokedex [5]={Pikachu,Charmander,Squirtle,Bulbasur,Mewtwo};
    pokemon * pokedex_ptr = pokedex;
