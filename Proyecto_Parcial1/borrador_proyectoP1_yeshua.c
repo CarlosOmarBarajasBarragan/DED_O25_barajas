@@ -177,7 +177,7 @@ int main(){
         battle[0].action[opcion_atque](battle_ptr,battle_ptr+1);
 
         // -----------Turno Bot-----------//
-        Sleep(3000);// son en milisegundos
+        //Sleep(3000);// son en milisegundos
         printf("Turno del enemigo \n");
 
 
