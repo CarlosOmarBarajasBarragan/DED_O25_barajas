@@ -70,10 +70,10 @@ void dormir(int id){
 void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
 
      int pokemon_escogido=-1;
-     /*
+    /* 
     for (int i = 0; i < 5; i++)
     {
-        printf("[%d]-- %s \n",i,pokedex_pointer->name[i]);//es un pointer
+        printf("[%d]-- %s \n",i,(*pokedex_pointer->name));//es un pointer
     }
     */
 
