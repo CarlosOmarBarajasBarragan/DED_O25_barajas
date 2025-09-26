@@ -70,11 +70,16 @@ void dormir(int id){
 void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
 
      int pokemon_escogido=-1;
-
+     /*
+    for (int i = 0; i < 5; i++)
+    {
+        printf("[%d]-- %s \n",i,pokedex_pointer->name[i]);//es un pointer
+    }
+    */
 
     while (pokemon_escogido <0 || pokemon_escogido >= 5)
     {
-        printf("Jugador 1 escoge tu pokemon\n");
+        printf("Jugador escoge tu pokemon\n");
         scanf("%d", &pokemon_escogido);
         fflush(stdout);
     }
@@ -227,7 +232,7 @@ int main(){
                 printf("%d. %s\n",i,*ptr_nombres);
             }
             scanf("%d",&opcion_atque);
-
+            printf("\n");
             battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno), definir_turno,diferenciador(definir_turno));
 
             printf("Presiona enter para continuar\n");
