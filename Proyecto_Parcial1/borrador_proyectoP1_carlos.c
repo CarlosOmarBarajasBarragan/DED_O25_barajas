@@ -8,13 +8,12 @@
 
 typedef struct pokemon{
     char name[20];
-    // poner de estados y resetear en el while
     int hp;
+    int id;
     int dormir;
     int defensa;
     int veneno; 
-    void (*action[5])(struct pokemon* pokemon_jugador, struct pokemon* pokemon_enemigo, int id_a, int id_d);
-    /*void (*action[5]) (void*) */
+    void (*action[3])(void * pokemon_jugador, void * pokemon_enemigo);
 }pokemon;
 
 char param[12];
@@ -40,32 +39,72 @@ int diferenciador (int definir_turno){
     }
 }
 
-void attack(pokemon * pokemon_jugador,pokemon * pokemon_enemigo,int id_a, int id_d){
-    if (pokemon_enemigo->defensa == 1)
+void attack(void * pokemon_jugador,void * pokemon_enemigo){
+
+    struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
+    struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
+    if (enemigo->defensa == 1)
     {
-        pokemon_enemigo->hp-=5;
+        enemigo->hp-=5;
     }else{
-        pokemon_enemigo->hp-=10;
+        enemigo->hp-=10;
     }
-     // LÍNEA 50 CORREGIDA: Usa mostrar_turno con el ID del atacante (id_a) y del defensor (id_d)
-    printf("%s (%s) ataco a %s (%s)\n", pokemon_jugador->name, mostrar_turno(id_a, param_ptr), pokemon_enemigo->name, mostrar_turno(id_d, param_ptr));
+      printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr));
     
-    printf("%s (%s) tiene ahora %d HP\n", pokemon_enemigo->name, mostrar_turno(id_d, param_ptr), pokemon_enemigo->hp);
+    printf("%s (%s) tiene ahora %d HP\n", enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr), enemigo->hp);
 }
 
-void block(pokemon * pokemon_jugador,pokemon * pokemon_enemigo,int id_a, int id_d){
+void block(void * pokemon_jugador,void * pokemon_enemigo){
+
+    struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
+    struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
     printf("Aqui el enemigo se pone mas defensa es prueba nomas\n");
-    pokemon_enemigo->defensa=1;
-    //pokemon_jugador->defensa=1; // Cambia a pokemon_jugador
-}
-
-void veneno(pokemon * pokemon_jugador,pokemon * pokemon_enemigo){
-    
-}
-
-void dormir(int id){
+    enemigo->defensa=1;
 
 }
+
+void veneno(void * pokemon_jugador,void * pokemon_enemigo){
+
+    struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
+    struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+}
+
+void dormir(void * pokemon_jugador,void * pokemon_enemigo){
+
+    struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
+    struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
+}
+
+void regen(void * pokemon_jugador,void * pokemon_enemigo){
+
+    struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
+    struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
+}
+
+
+/*
+void magia_set(pokemon * battle_ptr,void (* magia_array)(void*,void*), int contador,char**nombres_ataques){
+
+    for (int i = 0; i < 3; i++;ptr_magia++){
+        printf("%d. %s\n",i, *ptr_magia);
+    }
+
+    int magia_escogida;
+
+    printf("Jugador escoge tu magia\n");
+    scanf("%d", &magia_escogida);
+    fflush(stdout);
+
+    (battle_ptr+contador)->action[2] = *(magia_array+magia_escogida);
+
+    strcpy(nombres_ataques[2], nombres_magia[magia_escogida]);
+
+
+} */
 
 void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
 
@@ -87,31 +126,11 @@ void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
 
     for (int i= 0; i<2; i++){
     
-    switch (pokemon_escogido)
-    {
-    case 0:
-        *(battle_ptr+i) = *(pokedex_pointer);
-        break;
-    
-    case 1:
-        *(battle_ptr+i) = *(pokedex_pointer+1);
-        break;
+        *(battle_ptr+i) = *(pokedex_pointer+pokemon_escogido);
+        (battle_ptr+i)->id = i;
+        
+        /*magia_set(); hace falta dejar correcto el magia_set */
 
-    case 2:
-        *(battle_ptr+i) = *(pokedex_pointer+2);
-        break;
-
-    case 3:     
-        *(battle_ptr+i) = *(pokedex_pointer+3);
-        break;
-
-    case 4:
-        *(battle_ptr+i) = *(pokedex_pointer+4);
-        break;
-    
-    default:
-      break;
-    } 
     pokemon_escogido = rand()%1;// Siempre pikachu para prueba
     }
 
@@ -123,8 +142,10 @@ void pokemon_preview(pokemon * battle_ptr){
     printf("Pokemon Aliado: %s\n",(battle_ptr)->name);
     printf("Salud propia: %d\n",(battle_ptr)->hp);
 
+
     printf("Pokemon enemigo: %s\n",(battle_ptr+1)->name);
     printf("Salud enemigo: %d\n",(battle_ptr+1)->hp);
+  
 
    printf("--------------------------------\n");
    printf("\n");
@@ -133,6 +154,7 @@ void pokemon_preview(pokemon * battle_ptr){
 void limpiar_pantalla(){
     system("cls");
 }
+
 
 
 
@@ -147,42 +169,57 @@ int main(){
         .dormir = 0,
         .veneno = 0,
         .hp = 30,//110
-        .action = { attack, block,NULL,NULL,NULL }
+        .action = { attack, block,NULL}
     };
 
     pokemon Charmander = {
         .name = "Charmander",
         .hp = 100,
-        .action = { attack, block,NULL,NULL,NULL }
+        .action = { attack, block,NULL}
     };
 
     pokemon Squirtle = {
         .name = "Squirtle",
         .hp = 100,
-        .action = { attack, block,NULL,NULL,NULL }
+        .action = { attack, block,NULL}
     };
 
     pokemon Bulbasur = {
         .name = "Bulbasur",
         .hp = 100,
-        .action = { attack, block,NULL,NULL,NULL }
+        .action = { attack, block,NULL}
     };
 
     pokemon Mewtwo = {
         .name = "Mewtwo",
         .hp = 100,
-        .action = { attack, block,NULL,NULL,NULL }
+        .action = { attack, block,NULL}
     };
 
 
     pokemon battle [2];
     pokemon * battle_ptr = battle;
 
-    /*void * v_array[7]= {};*/
 
+    
+    void * magia_array[3]={veneno, dormir, regen};
+    char magia_1[20] ="Veneno";
+    char magia_2[30] = "Dormir";
+    char magia_3[20] = "Regeneracion";
+    char *nombres_magia[]={magia_1,magia_2,magia_3};
+    char **ptr_magia=nombres_magia;
 
    pokemon pokedex [5]={Pikachu,Charmander,Squirtle,Bulbasur,Mewtwo};
    pokemon * pokedex_ptr = pokedex;
+
+       // Declara nombres ataques
+    char atq1[20] ="Ataque";
+    char atq2[20] = "Defensa";
+    char atq3[20] = "Magia1";
+    char *nombres_ataques[]={atq1,atq2,atq3};
+    char **ptr_nombres=nombres_ataques;
+    int constante =1, turno = 1, opcion_atque =-1;
+
     
    // Establece los pokemones
     pokemon_set(battle_ptr,pokedex_ptr);
@@ -193,15 +230,7 @@ int main(){
    getchar();
    getchar();
    limpiar_pantalla();
-    // Declara nombres ataques
-    char atq1[10] ="Ataque";
-    char atq2[10] = "Defensa";
-    char atq3[10] = "Magia1";
-    char atq4[10] = "Magia2";
-    char atq5[10] = "Magia3";
-    char *nombres_ataques[]={atq1,atq2,atq3,atq4,atq5};
-    char **ptr_nombres=nombres_ataques;
-    int constante =1, turno = 1, opcion_atque =-1;;
+
 
 
 
@@ -226,14 +255,14 @@ int main(){
             
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
-            printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+definir_turno)->name);
-            for (int i = 0; i < 5; i++,ptr_nombres++)
+            printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr)->name);
+            for (int i = 0; i < 3; i++,ptr_nombres++)
             {
                 printf("%d. %s\n",i,*ptr_nombres);
             }
             scanf("%d",&opcion_atque);
             printf("\n");
-            battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno), definir_turno,diferenciador(definir_turno));
+            battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno));
 
             printf("Presiona enter para continuar\n");
             getchar();
@@ -244,7 +273,7 @@ int main(){
             
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
-            printf("(%s) eligiendo el ataque de su %s\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+definir_turno)->name);
+            printf("(%s) eligiendo el ataque de su %s\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+1)->name);
             printf("Enemigo pensando\n");
             printf("Presiona enter para continuar\n");
             
@@ -254,7 +283,7 @@ int main(){
             getchar();
             
 
-            battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno), definir_turno,diferenciador(definir_turno));
+            battle[diferenciador(definir_turno)].action[opcion_atque]((battle_ptr+diferenciador(definir_turno)),(battle_ptr+definir_turno));
 
             printf("Presiona enter para continuar\n");
             getchar();
