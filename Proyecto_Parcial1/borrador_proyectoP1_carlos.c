@@ -50,7 +50,7 @@ void attack(void * pokemon_jugador,void * pokemon_enemigo){
     }else{
         enemigo->hp-=10;
     }
-      printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr));
     
     printf("%s (%s) tiene ahora %d HP\n", enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr), enemigo->hp);
 }
@@ -60,8 +60,9 @@ void block(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("Aqui el enemigo se pone mas defensa es prueba nomas\n");
-    enemigo->defensa=1;
+    
+    printf("%s (%s) uso defensa ferrea, %s aumento su defensa \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name);
+    jugador->defensa=1;
 
 }
 
@@ -122,13 +123,14 @@ void magia_set(pokemon * battle_ptr, void (**magia_array)(void*, void*), char **
 
 void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer, void (**magia_array)(void*, void*), char **magia_names){
 
-     int pokemon_escogido=-1;
-    /* 
-    for (int i = 0; i < 5; i++)
+    int pokemon_escogido=-1;
+    pokemon * pokemon_nombres = pokedex_pointer;
+    
+    for (int i = 0; i < 5; i++,pokemon_nombres++)
     {
-        printf("[%d]-- %s \n",i,(*pokedex_pointer->name));//es un pointer
+        printf("[%d]-- %s \n",i,(pokemon_nombres->name));
     }
-    */
+    
 
     while (pokemon_escogido <0 || pokemon_escogido >= 5)
     {
@@ -144,6 +146,7 @@ void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer, void (**magia_a
         (battle_ptr+i)->id = i;
         
         magia_set(battle_ptr,magia_array,magia_names,i); 
+        printf("\n");
 
     pokemon_escogido = rand()%1;// Siempre pikachu para prueba
     }
@@ -203,24 +206,36 @@ int main(){
 
     pokemon Charmander = {
         .name = "Charmander",
+        .defensa = 0,
+        .dormir = 0,
+        .veneno = 0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
 
     pokemon Squirtle = {
         .name = "Squirtle",
+        .defensa = 0,
+        .dormir = 0,
+        .veneno = 0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
 
     pokemon Bulbasur = {
         .name = "Bulbasur",
+        .defensa = 0,
+        .dormir = 0,
+        .veneno = 0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
 
     pokemon Mewtwo = {
         .name = "Mewtwo",
+        .defensa = 0,
+        .dormir = 0,
+        .veneno = 0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
@@ -262,6 +277,17 @@ int main(){
    getchar();
    limpiar_pantalla();
 
+   // Declaración de contadores
+   // Jugador
+   int conta_defensa_Jugador=2;
+   int conta_veneno_Jugador=2;
+   int conta_dormir_Jugador=2;
+   int conta_regeneracion_Jugador=2;
+   // Rival
+   int conta_defensa_Rival=2;
+   int conta_veneno_Rival=2;
+   int conta_dormir_Rival=2;
+   int conta_regeneracion_Rival=2;
 
 
 
@@ -299,6 +325,21 @@ int main(){
             printf("Presiona enter para continuar\n");
             getchar();
             getchar();
+            if (battle->defensa ==1)
+            {
+                //printf("Aqui aun tiene la defensa activada\n");
+                conta_defensa_Jugador-=1;
+                if (conta_defensa_Jugador<=0)
+                {
+                   // printf("Aqui ya se desactivo la defensa \n");
+                    battle->defensa=0;
+                    conta_defensa_Jugador=2;
+                }
+                
+                
+            }
+           // getchar();
+            
 
         }
         else if (definir_turno == 0){
