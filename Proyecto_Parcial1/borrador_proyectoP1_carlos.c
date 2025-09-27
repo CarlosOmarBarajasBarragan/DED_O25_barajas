@@ -89,7 +89,7 @@ void regen(void * pokemon_jugador,void * pokemon_enemigo){
 /*
 void magia_set(pokemon * battle_ptr,void (* magia_array)(void*,void*), int contador,char**nombres_ataques){
 
-    for (int i = 0; i < 3; i++;ptr_magia++){
+    for (int i = 0; i < 3; i++,ptr_magia++){
         printf("%d. %s\n",i, *ptr_magia);
     }
 
@@ -108,13 +108,15 @@ void magia_set(pokemon * battle_ptr,void (* magia_array)(void*,void*), int conta
 
 void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
 
-     int pokemon_escogido=-1;
-    /* 
-    for (int i = 0; i < 5; i++)
+    int pokemon_escogido=-1;
+    pokemon * Mostrar_poke = pokedex_pointer;
+    printf("Pokemones disponibles:  \n");
+
+    for (int i = 0; i < 5; i++,Mostrar_poke++)
     {
-        printf("[%d]-- %s \n",i,(*pokedex_pointer->name));//es un pointer
+        printf("[%d]-- %s \n",i,(Mostrar_poke->name));
     }
-    */
+    printf("\n");
 
     while (pokemon_escogido <0 || pokemon_escogido >= 5)
     {
@@ -124,8 +126,8 @@ void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
     }
     
 
-    for (int i= 0; i<2; i++){
-    
+    for (int i= 0; i<2; i++)
+    {
         *(battle_ptr+i) = *(pokedex_pointer+pokemon_escogido);
         (battle_ptr+i)->id = i;
         
