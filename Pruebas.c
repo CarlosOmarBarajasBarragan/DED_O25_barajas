@@ -69,6 +69,8 @@ void veneno(void * pokemon_jugador,void * pokemon_enemigo){
 
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
+    printf("si");
 }
 
 void dormir(void * pokemon_jugador,void * pokemon_enemigo){
@@ -86,33 +88,45 @@ void regen(void * pokemon_jugador,void * pokemon_enemigo){
 }
 
 
-/*
-void magia_set(pokemon * battle_ptr,void (* magia_array)(void*,void*), int contador,char**nombres_ataques){
 
-    for (int i = 0; i < 3; i++;ptr_magia++){
-        printf("%d. %s\n",i, *ptr_magia);
+void magia_set(pokemon * battle_ptr, void (**magia_array)(void*, void*), char **magia_names, int contador) {
+
+    if ((battle_ptr+contador)->id == 0){
+
+    printf("--- Escoge una Magia ---\n");
+
+    for (int i = 0; i < 3; i++) {
+        
+        printf("%d. %s\n", i, *(magia_names + i));
     }
 
     int magia_escogida;
 
-    printf("Jugador escoge tu magia\n");
+    printf("Jugador, escoge tu magia: ");
     scanf("%d", &magia_escogida);
-    fflush(stdout);
-
-    (battle_ptr+contador)->action[2] = *(magia_array+magia_escogida);
-
-    strcpy(nombres_ataques[2], nombres_magia[magia_escogida]);
 
 
-} */
+    *((battle_ptr+contador)->action + 2) = *(magia_array + magia_escogida);
+    }
 
-void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
+    else{
+    int magia_escogida;
+
+    magia_escogida = rand()%1;
+
+
+    *((battle_ptr+contador)->action + 2) = *(magia_array + magia_escogida);
+    }
+
+}
+
+void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer, void (**magia_array)(void*, void*), char **magia_names){
 
      int pokemon_escogido=-1;
-     /*
+    /* 
     for (int i = 0; i < 5; i++)
     {
-        printf("[%d]-- %s \n",i,pokedex_pointer->name[i]);//es un pointer
+        printf("[%d]-- %s \n",i,(*pokedex_pointer->name));//es un pointer
     }
     */
 
@@ -129,7 +143,7 @@ void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer){
         *(battle_ptr+i) = *(pokedex_pointer+pokemon_escogido);
         (battle_ptr+i)->id = i;
         
-        /*magia_set(); hace falta dejar correcto el magia_set */
+        magia_set(battle_ptr,magia_array,magia_names,i); 
 
     pokemon_escogido = rand()%1;// Siempre pikachu para prueba
     }
@@ -155,8 +169,23 @@ void limpiar_pantalla(){
     system("cls");
 }
 
+char * nombre_magia(pokemon * battle_ptr) {
+    void (*magia_actual)(void*, void*) = *(battle_ptr->action + 2);
 
+    // Comparamos ese puntero con las funciones de magia que conocemos
+    if (magia_actual == veneno) {
+        return "Veneno"; // Si es la función 'veneno', devolvemos el texto "Veneno"
+    }
+    
+    else if (magia_actual == dormir) {
+        return "Dormir";
+    }
+    else if(magia_actual == regen){
+        return "Regeneracion";
+    }
 
+    return NULL;
+}
 
 int main(){
    
@@ -202,7 +231,7 @@ int main(){
 
 
     
-    void * magia_array[3]={veneno, dormir, regen};
+    void (*magia_array[3])(void*, void*) = {veneno, dormir, regen};
     char magia_1[20] ="Veneno";
     char magia_2[30] = "Dormir";
     char magia_3[20] = "Regeneracion";
@@ -212,17 +241,19 @@ int main(){
    pokemon pokedex [5]={Pikachu,Charmander,Squirtle,Bulbasur,Mewtwo};
    pokemon * pokedex_ptr = pokedex;
 
+       
+   // Establece los pokemones
+    pokemon_set(battle_ptr,pokedex_ptr, magia_array,ptr_magia);
+
        // Declara nombres ataques
     char atq1[20] ="Ataque";
     char atq2[20] = "Defensa";
-    char atq3[20] = "Magia1";
+    char atq3[20] = ".";
     char *nombres_ataques[]={atq1,atq2,atq3};
     char **ptr_nombres=nombres_ataques;
     int constante =1, turno = 1, opcion_atque =-1;
 
-    
-   // Establece los pokemones
-    pokemon_set(battle_ptr,pokedex_ptr);
+
 
     // Solo muestra los pokemones
    pokemon_preview(battle_ptr);
@@ -256,6 +287,7 @@ int main(){
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
             printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr)->name);
+            strcpy(atq3, nombre_magia(battle_ptr));
             for (int i = 0; i < 3; i++,ptr_nombres++)
             {
                 printf("%d. %s\n",i,*ptr_nombres);
