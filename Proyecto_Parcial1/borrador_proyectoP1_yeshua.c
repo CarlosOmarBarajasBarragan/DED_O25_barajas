@@ -11,9 +11,13 @@ typedef struct pokemon{
     int hp;
     int id;
     int dormir;
+    int conta_dormir;
     int defensa;
     int conta_defensa;
     int veneno; 
+    int conta_veneno;
+    int regeneracion;
+    int conta_regeneracion;
     void (*action[3])(void * pokemon_jugador, void * pokemon_enemigo);
 }pokemon;
 
@@ -73,13 +77,20 @@ void veneno(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("si");
+    printf("%s (%s) uso polvo veneno en %s (%s), ha sido envenenado \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name,mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    enemigo->veneno=1;
+    enemigo->conta_veneno=3; // Dura 3 turnos el veneno
+    
 }
 
 void dormir(void * pokemon_jugador,void * pokemon_enemigo){
 
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
+
+    printf("%s (%s) uso bostezo en %s (%s), ha caido dormido \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name,mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    enemigo->dormir=1;
+    enemigo->conta_dormir=2;// Duerme 2 turnos
 
 }
 
@@ -88,6 +99,9 @@ void regen(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
+    printf("%s (%s) uso arraigo,%s (%s) empezara a recuperar hp \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name,mostrar_turno(diferenciador(jugador->id), param_ptr));
+    jugador->regeneracion =1;
+    jugador->conta_regeneracion=3;
 }
 
 
@@ -114,8 +128,10 @@ void magia_set(pokemon * battle_ptr, void (**magia_array)(void*, void*), char **
 
     else{
     int magia_escogida;
+    // Bot elige magia
+    magia_escogida = rand()%1;// %3
+   
 
-    magia_escogida = rand()%1;
 
 
     *((battle_ptr+contador)->action + 2) = *(magia_array + magia_escogida);
@@ -202,8 +218,12 @@ int main(){
         .defensa = 0,
         .conta_defensa = 0,
         .dormir = 0,
+        .conta_dormir =0,
         .veneno = 0,
-        .hp = 30,//110
+        .conta_veneno =0,
+        .regeneracion =0,
+        .conta_regeneracion=0,
+        .hp = 100,//110
         .action = { attack, block,NULL}
     };
 
@@ -212,7 +232,11 @@ int main(){
         .defensa = 0,
         .conta_defensa = 0,
         .dormir = 0,
+        .conta_dormir =0,
         .veneno = 0,
+        .conta_veneno =0,
+        .regeneracion =0,
+        .conta_regeneracion=0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
@@ -220,8 +244,13 @@ int main(){
     pokemon Squirtle = {
         .name = "Squirtle",
         .defensa = 0,
+        .conta_defensa = 0,
         .dormir = 0,
+        .conta_dormir =0,
         .veneno = 0,
+        .conta_veneno =0,
+        .regeneracion =0,
+        .conta_regeneracion=0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
@@ -229,8 +258,13 @@ int main(){
     pokemon Bulbasur = {
         .name = "Bulbasur",
         .defensa = 0,
+        .conta_defensa = 0,
         .dormir = 0,
+        .conta_dormir =0,
         .veneno = 0,
+        .conta_veneno =0,
+        .regeneracion =0,
+        .conta_regeneracion=0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
@@ -238,8 +272,13 @@ int main(){
     pokemon Mewtwo = {
         .name = "Mewtwo",
         .defensa = 0,
+        .conta_defensa = 0,
         .dormir = 0,
+        .conta_dormir =0,
         .veneno = 0,
+        .conta_veneno =0,
+        .regeneracion =0,
+        .conta_regeneracion=0,
         .hp = 100,
         .action = { attack, block,NULL}
     };
@@ -251,9 +290,9 @@ int main(){
 
     
     void (*magia_array[3])(void*, void*) = {veneno, dormir, regen};
-    char magia_1[20] ="Veneno";
+    char magia_1[30] ="Veneno";
     char magia_2[30] = "Dormir";
-    char magia_3[20] = "Regeneracion";
+    char magia_3[30] = "Regeneracion";
     char *nombres_magia[]={magia_1,magia_2,magia_3};
     char **ptr_magia=nombres_magia;
 
@@ -265,8 +304,8 @@ int main(){
     pokemon_set(battle_ptr,pokedex_ptr, magia_array,ptr_magia);
 
        // Declara nombres ataques
-    char atq1[20] ="Ataque";
-    char atq2[20] = "Defensa";
+    char atq1[30] ="Ataque";
+    char atq2[30] = "Defensa";
     char atq3[20] = ".";
     char *nombres_ataques[]={atq1,atq2,atq3};
     char **ptr_nombres=nombres_ataques;
@@ -305,8 +344,7 @@ int main(){
        
 
         if (definir_turno == 1){
-            
-            
+             
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
             printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr)->name);
@@ -322,23 +360,46 @@ int main(){
             printf("Presiona enter para continuar\n");
             getchar();
             getchar();
-            if (battle->defensa ==1)
+            // Evaluamos defensa
+            if (battle->defensa ==1) 
             {
-                
                 battle->conta_defensa--;
-    
                 if (battle->conta_defensa <= 0)
                 {
                    printf("La defensa de %s (%s) a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
                     battle->defensa=0;
                     getchar();
                 }
-                
-                
             }
-           // getchar();
+            // Evaluamos veneno
+            if (battle->veneno ==1)
+            {
+                battle->conta_veneno--;
+                printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",battle->name,mostrar_turno(definir_turno,param_ptr),battle->name);
+                getchar();
+                battle->hp-=5;
+                if (battle->conta_veneno <= 0)
+                {
+                    printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                    battle->veneno =0;
+                }
+            }
+            // Evaluamos regeneracion
+            if (battle->regeneracion ==1)
+            {
+                battle->conta_regeneracion--;
+                printf("%s (%s) recupera 5hp \n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                getchar();
+                battle->hp+=5;
+                if (battle->conta_regeneracion <= 0)
+                {
+                    printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                    battle->regeneracion =0;
+                    getchar();
+                }
+            }
             
-
+            
         }
         else if (definir_turno == 0){
             
@@ -348,8 +409,8 @@ int main(){
             printf("Enemigo pensando\n");
             printf("Presiona enter para continuar\n");
             
-            
-            opcion_atque = rand()%1;
+           opcion_atque= 2;
+           // opcion_atque = rand()%1;// Solo elige ataque
             // Sleep(4000);
             getchar();
             
@@ -359,7 +420,47 @@ int main(){
             printf("Presiona enter para continuar\n");
             getchar();
 
+            // Revisamos defensa
+            if ((battle+1)->defensa ==1) 
+            {
+                (battle+1)->conta_defensa--;
+                if ((battle+1)->conta_defensa <= 0)
+                {
+                   printf("La defensa de %s (%s) a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    (battle+1)->defensa=0;
+                    getchar();
+                }
             }
+            // Revisamos veneno
+            if ((battle+1)->veneno ==1)
+            {
+                (battle+1)->conta_veneno--;
+                printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr),(battle+1)->name);
+                getchar();
+                (battle+1)->hp-=5;
+                if ((battle+1)->conta_veneno <= 0)
+                {
+                    printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    (battle+1)->veneno =0;
+                    getchar();
+                }  
+            }
+
+            // Evaluamos regeneracion
+            if ((battle+1)->regeneracion ==1)
+            {
+                (battle+1)->conta_regeneracion--;
+                printf("%s (%s) recupera 5hp \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                getchar();
+                (battle+1)->hp+=5;
+                if ((battle+1)->conta_regeneracion <= 0)
+                {
+                    printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    (battle+1)->regeneracion =0;
+                    getchar();
+                }
+            }
+        }
 
         turno+=1;
         printf("\n");
