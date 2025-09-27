@@ -12,6 +12,7 @@ typedef struct pokemon{
     int id;
     int dormir;
     int defensa;
+    int conta_defensa;
     int veneno; 
     void (*action[3])(void * pokemon_jugador, void * pokemon_enemigo);
 }pokemon;
@@ -63,6 +64,7 @@ void block(void * pokemon_jugador,void * pokemon_enemigo){
     
     printf("%s (%s) uso defensa ferrea, %s aumento su defensa \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name);
     jugador->defensa=1;
+    jugador->conta_defensa=2;
 
 }
 
@@ -198,6 +200,7 @@ int main(){
    pokemon Pikachu = {
         .name = "Pikachu",
         .defensa = 0,
+        .conta_defensa = 0,
         .dormir = 0,
         .veneno = 0,
         .hp = 30,//110
@@ -207,6 +210,7 @@ int main(){
     pokemon Charmander = {
         .name = "Charmander",
         .defensa = 0,
+        .conta_defensa = 0,
         .dormir = 0,
         .veneno = 0,
         .hp = 100,
@@ -279,15 +283,7 @@ int main(){
 
    // Declaración de contadores
    // Jugador
-   int conta_defensa_Jugador=2;
-   int conta_veneno_Jugador=2;
-   int conta_dormir_Jugador=2;
-   int conta_regeneracion_Jugador=2;
-   // Rival
-   int conta_defensa_Rival=2;
-   int conta_veneno_Rival=2;
-   int conta_dormir_Rival=2;
-   int conta_regeneracion_Rival=2;
+  
 
 
 
@@ -310,6 +306,7 @@ int main(){
 
         if (definir_turno == 1){
             
+            
             printf("\n");
             printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
             printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr)->name);
@@ -327,13 +324,14 @@ int main(){
             getchar();
             if (battle->defensa ==1)
             {
-                //printf("Aqui aun tiene la defensa activada\n");
-                conta_defensa_Jugador-=1;
-                if (conta_defensa_Jugador<=0)
+                
+                battle->conta_defensa--;
+    
+                if (battle->conta_defensa <= 0)
                 {
-                   // printf("Aqui ya se desactivo la defensa \n");
+                   printf("La defensa de %s (%s) a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
                     battle->defensa=0;
-                    conta_defensa_Jugador=2;
+                    getchar();
                 }
                 
                 
