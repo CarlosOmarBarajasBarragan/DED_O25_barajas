@@ -5,6 +5,8 @@
 #include <time.h>
 #include <windows.h> 
 
+/*------- Version 27/09/2025 7:37 pm*/
+
 
 typedef struct pokemon{
     char name[20];
