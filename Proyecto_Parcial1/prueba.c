@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <time.h>
 
 
@@ -250,6 +249,7 @@ void pokemon_preview(pokemon * battle_ptr){
 
 void limpiar_pantalla(){
     system("cls");
+    // system("clear")
 }
 
 char * nombre_magia(pokemon * battle_ptr) {
