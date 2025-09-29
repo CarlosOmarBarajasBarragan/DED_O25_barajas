@@ -254,7 +254,11 @@ void pokemon_preview(pokemon * battle_ptr){
 }
 
 void limpiar_pantalla(){
-    system("cls");
+    #ifdef _WIN32
+        system("cls"); 
+    #else
+        system("clear"); 
+    #endif
 }
 
 void presentacion(){
