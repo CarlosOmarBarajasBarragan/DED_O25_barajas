@@ -4,7 +4,7 @@
 #include <time.h>
 
 
-/*------- Version 28/09/2025 4:31 pm-------*/
+/*------- Version FINAL-------*/
 
 
 typedef struct pokemon{
