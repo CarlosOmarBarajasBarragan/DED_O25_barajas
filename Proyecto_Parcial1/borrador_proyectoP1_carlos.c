@@ -24,18 +24,16 @@ typedef struct pokemon{
     int conta_furia;
     void (*action[4])(void * pokemon_jugador, void * pokemon_enemigo);
 }pokemon;
-
+/*
 char param[12];
 char * param_ptr = param;
-
-char* mostrar_turno(int turno, char * param){
+*/
+char* mostrar_turno(int turno){
     if (turno %2 == 0){
-        param = "Rival";
-        return param;
+        return "Rival";
     }
     else{
-        param = "Jugador";
-        return param;
+        return "Jugador";
     }
 }
 
@@ -59,23 +57,12 @@ void attack(void * pokemon_jugador,void * pokemon_enemigo){
     } else if (jugador->furia ==1)
     {
         enemigo->hp-=15;
-        printf("%s (%s) esta furioso y hara mas danio \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("%s (%s) esta furioso y hara mas danio \n", jugador->name, mostrar_turno(diferenciador(jugador->id)));
         printf("\n");
     }else{
         enemigo->hp-=10;
-    }
-    /*
-    else if (condition)
-    {
-        
-    }
-    */
-    
-    
-    
-    
-    
-    printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    } 
+    printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id)), enemigo->name, mostrar_turno(diferenciador(enemigo->id)));
     printf("%s (%s) tiene ahora %d HP\n", enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr), enemigo->hp);
 }
 
@@ -139,21 +126,35 @@ void suerte(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
     int num_random= rand()%11;
     int num_escogido=-1;
+    if (jugador->id == 0)
+    {
+        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("Elige un numero entre el 0 y 10 , si lo adivinas pasara algo bueno\n");
+        scanf("%d",&num_escogido);
+        if (num_escogido == num_random)
+        {
+            printf("Estas de suerte, tu pokemon se recupero al maximo\n");
+            jugador->hp=100;
+        }else
+        {
+            printf("Mala suerte el numero era %d, suerte a la proxima\n",num_random);
+        }
+    }else{
+        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("Elige un numero entre el 0 y 10 , si lo adivinas pasara algo bueno\n");
+        num_escogido = rand()%11;
+        if (num_escogido == num_random)
+        {
+            printf("Estas de suerte, tu pokemon se recupero al maximo\n");
+            jugador->hp=100;
+        }else
+        {
+            printf("Mala suerte el numero era %d, suerte a la proxima\n",num_random);
+        }
+        getchar();
 
-    printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
-    printf("Elige un numero entre el 0 y 10 , si lo adivinas pasara algo bueno\n");
-    scanf("%d",&num_escogido);
-    if (num_escogido == num_random)
-    {
-        printf("Estas de suerte, tu pokemon se recupero al maximo\n");
-        jugador->hp=100;
-    }else
-    {
-        printf("Mala suerte el numero era %d, suerte a la proxima\n",num_random);
     }
-    
-    
-    
+
 }
 
 void magia_set(pokemon* battle_ptr, void (**magia_array)(void*, void*), char** magia_names, int contador) {
@@ -236,7 +237,7 @@ void pokemon_set(pokemon * battle_ptr,pokemon * pokedex_pointer, void (**magia_a
         magia_set(battle_ptr,magia_array,magia_names,i); 
         printf("\n");
 
-        pokemon_escogido = rand()%1;// Siempre pikachu para prueba
+        pokemon_escogido = rand()%5;// Siempre pikachu para prueba
     }
 
 }
@@ -567,7 +568,7 @@ int main(){
                 printf("Enemigo pensando\n");
                 printf("Presiona enter para continuar\n");
                 
-                //opcion_atque= 1; //Hace solo la magia
+                //opcion_atque= 2; //Hace solo la magia
                 opcion_atque = rand()%4;// elige del 0 al 3
                 
                 getchar();
