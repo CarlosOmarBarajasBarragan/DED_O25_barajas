@@ -24,10 +24,7 @@ typedef struct pokemon{
     int conta_furia;
     void (*action[4])(void * pokemon_jugador, void * pokemon_enemigo);
 }pokemon;
-/*
-char param[12];
-char * param_ptr = param;
-*/
+
 char* mostrar_turno(int turno){
     if (turno %2 == 0){
         return "Rival";
@@ -63,7 +60,7 @@ void attack(void * pokemon_jugador,void * pokemon_enemigo){
         enemigo->hp-=10;
     } 
     printf("%s (%s) ataco a %s (%s)\n", jugador->name, mostrar_turno(diferenciador(jugador->id)), enemigo->name, mostrar_turno(diferenciador(enemigo->id)));
-    printf("%s (%s) tiene ahora %d HP\n", enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr), enemigo->hp);
+    printf("%s (%s) tiene ahora %d HP\n", enemigo->name, mostrar_turno(diferenciador(enemigo->id)), enemigo->hp);
 }
 
 void block(void * pokemon_jugador,void * pokemon_enemigo){
@@ -71,7 +68,7 @@ void block(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("%s (%s) uso defensa ferrea, %s aumento su defensa \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name);
+    printf("%s (%s) uso defensa ferrea, %s aumento su defensa \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), jugador->name);
     jugador->defensa=1;
     jugador->conta_defensa=2;
 
@@ -82,7 +79,7 @@ void veneno(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("%s (%s) uso polvo veneno en %s (%s), ha sido envenenado \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name,mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    printf("%s (%s) uso polvo veneno en %s (%s), ha sido envenenado \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), enemigo->name,mostrar_turno(diferenciador(enemigo->id)));
     enemigo->veneno=1;
     enemigo->conta_veneno=3; // Dura 3 turnos el veneno
     
@@ -93,7 +90,7 @@ void dormir(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("%s (%s) uso bostezo en %s (%s), ha caido dormido \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name,mostrar_turno(diferenciador(enemigo->id), param_ptr));
+    printf("%s (%s) uso bostezo en %s (%s), ha caido dormido \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), enemigo->name,mostrar_turno(diferenciador(enemigo->id)));
     enemigo->dormir=1;
     enemigo->conta_dormir=2;// Duerme 2 turnos
 
@@ -104,7 +101,7 @@ void regen(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("%s (%s) uso arraigo,%s (%s) empezara a recuperar hp \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name,mostrar_turno(diferenciador(jugador->id), param_ptr));
+    printf("%s (%s) uso arraigo,%s (%s) empezara a recuperar hp \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), jugador->name,mostrar_turno(diferenciador(jugador->id)));
     jugador->regeneracion =1;
     jugador->conta_regeneracion=3;
 }
@@ -114,7 +111,7 @@ void furia(void * pokemon_jugador,void * pokemon_enemigo){
     struct pokemon *jugador = (struct pokemon *)pokemon_jugador;
     struct pokemon *enemigo = (struct pokemon *)pokemon_enemigo;
 
-    printf("%s (%s) uso furia, %s esta enojado , su ataque se ve incrementado \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), jugador->name);
+    printf("%s (%s) uso furia, %s esta enojado , su ataque se ve incrementado \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), jugador->name);
     jugador->furia=1;
     jugador->conta_furia=4; // Dura 3 turnos la furia
     
@@ -128,7 +125,7 @@ void suerte(void * pokemon_jugador,void * pokemon_enemigo){
     int num_escogido=-1;
     if (jugador->id == 0)
     {
-        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id)));
         printf("Elige un numero entre el 0 y 10 , si lo adivinas pasara algo bueno\n");
         scanf("%d",&num_escogido);
         if (num_escogido == num_random)
@@ -140,7 +137,7 @@ void suerte(void * pokemon_jugador,void * pokemon_enemigo){
             printf("Mala suerte el numero era %d, suerte a la proxima\n",num_random);
         }
     }else{
-        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("%s (%s) Quiere probar su suerte \n", jugador->name, mostrar_turno(diferenciador(jugador->id)));
         printf("Elige un numero entre el 0 y 10 , si lo adivinas pasara algo bueno\n");
         num_escogido = rand()%11;
         if (num_escogido == num_random)
@@ -274,11 +271,11 @@ void final(void * pokemon_jugador,void * pokemon_enemigo){
 
     if (jugador->hp <= 0)
     {
-        printf("%s (%s) se ha debilidato, %s (%s) gana la batalla \n", jugador->name, mostrar_turno(diferenciador(jugador->id), param_ptr), enemigo->name,mostrar_turno(diferenciador(enemigo->id), param_ptr));
+        printf("%s (%s) se ha debilidato, %s (%s) gana la batalla \n", jugador->name, mostrar_turno(diferenciador(jugador->id)), enemigo->name,mostrar_turno(diferenciador(enemigo->id)));
         printf("---Perdiste---\n");
         getchar();
     }else{
-        printf("%s (%s) se ha debilidato, %s (%s) gana la batalla \n", enemigo->name, mostrar_turno(diferenciador(enemigo->id), param_ptr), jugador->name,mostrar_turno(diferenciador(jugador->id), param_ptr));
+        printf("%s (%s) se ha debilidato, %s (%s) gana la batalla \n", enemigo->name, mostrar_turno(diferenciador(enemigo->id)), jugador->name,mostrar_turno(diferenciador(jugador->id)));
         printf("---Ganaste---\n");
         getchar();
     }
@@ -465,21 +462,21 @@ int main(){
         if (definir_turno == 1){
              
             printf("\n");
-            printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
+            printf("Turno (%s)\n",mostrar_turno(definir_turno));
 
             // Revisamos dormir
             if (battle->dormir ==1){
                 battle->conta_dormir--;
-                printf("%s (%s) esta profundaente dormido, %s pierde el turno \n",battle->name,mostrar_turno(definir_turno,param_ptr),battle->name);
+                printf("%s (%s) esta profundaente dormido, %s pierde el turno \n",battle->name,mostrar_turno(definir_turno),battle->name);
                 getchar();
                 if (battle->conta_dormir<= 0){
-                    printf("%s (%s) se ha despertado, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) se ha despertado, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno));
                     battle->dormir =0;
                     getchar();
                 }
             } else{
 
-                printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr)->name);
+                printf("(%s) elige el ataque de tu %s:\n",mostrar_turno(definir_turno),(battle_ptr)->name);
                 strcpy(atq3, nombre_magia(battle_ptr,2));
                 strcpy(atq4, nombre_magia(battle_ptr,3));
                 for (int i = 0; i < 4; i++,ptr_nombres++)
@@ -500,7 +497,7 @@ int main(){
                     battle->conta_defensa--;
                     if (battle->conta_defensa <= 0)
                     {
-                        printf("La defensa de %s (%s) a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("La defensa de %s (%s) a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno));
                         battle->defensa=0;
                         getchar();
                     }
@@ -509,12 +506,12 @@ int main(){
                 if (battle->veneno ==1)
                 {
                     battle->conta_veneno--;
-                    printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",battle->name,mostrar_turno(definir_turno,param_ptr),battle->name);
+                    printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",battle->name,mostrar_turno(definir_turno),battle->name);
                     getchar();
                     battle->hp-=5;
                     if (battle->conta_veneno <= 0)
                     {
-                        printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno));
                         battle->veneno =0;
                     }
                 }
@@ -522,12 +519,12 @@ int main(){
                 if (battle->regeneracion ==1)
                 {
                     battle->conta_regeneracion--;
-                    printf("%s (%s) recupera 5hp \n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) recupera 5hp \n",battle->name,mostrar_turno(definir_turno));
                     getchar();
                     battle->hp+=5;
                     if (battle->conta_regeneracion <= 0)
                     {
-                        printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno));
                         battle->regeneracion =0;
                         getchar();
                     }
@@ -536,11 +533,11 @@ int main(){
                 if (battle->furia ==1)
                 {
                     battle->conta_furia--;
-                    printf("%s (%s) Sigue enojado \n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) Sigue enojado \n",battle->name,mostrar_turno(definir_turno));
                     getchar();
                     if (battle->conta_furia <= 0)
                     {
-                        printf("%s (%s) ha calmado, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) ha calmado, a vuelto a la normalidad\n",battle->name,mostrar_turno(definir_turno));
                         battle->furia =0;
                         getchar();
                     }
@@ -551,20 +548,20 @@ int main(){
         else if (definir_turno == 0){
             
             printf("\n");
-            printf("Turno (%s)\n",mostrar_turno(definir_turno,param_ptr));
+            printf("Turno (%s)\n",mostrar_turno(definir_turno));
 
             // Revisamos si duerme
             if ((battle+1)->dormir ==1){
                 (battle+1)->conta_dormir--;
-                printf("%s (%s) esta profundaente dormido, %s pierde el turno \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr),(battle+1)->name);
+                printf("%s (%s) esta profundaente dormido, %s pierde el turno \n",(battle+1)->name,mostrar_turno(definir_turno),(battle+1)->name);
                 getchar();
                 if ((battle+1)->conta_dormir<= 0){
-                    printf("%s (%s) se ha despertado, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) se ha despertado, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno));
                     (battle+1)->dormir =0;
                     getchar();
                 }
             }else{
-                printf("(%s) eligiendo el ataque de su %s\n",mostrar_turno(definir_turno,param_ptr),(battle_ptr+1)->name);
+                printf("(%s) eligiendo el ataque de su %s\n",mostrar_turno(definir_turno),(battle_ptr+1)->name);
                 printf("Enemigo pensando\n");
                 printf("Presiona enter para continuar\n");
                 
@@ -586,7 +583,7 @@ int main(){
                     (battle+1)->conta_defensa--;
                     if ((battle+1)->conta_defensa <= 0)
                     {
-                        printf("La defensa de %s (%s) a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("La defensa de %s (%s) a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno));
                         (battle+1)->defensa=0;
                         getchar();
                     }
@@ -595,12 +592,12 @@ int main(){
                 if ((battle+1)->veneno ==1)
                 {
                     (battle+1)->conta_veneno--;
-                    printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr),(battle+1)->name);
+                    printf("%s (%s) se resiste al veneno, %s pierde 5hp \n",(battle+1)->name,mostrar_turno(definir_turno),(battle+1)->name);
                     getchar();
                     (battle+1)->hp-=5;
                     if ((battle+1)->conta_veneno <= 0)
                     {
-                        printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) se ha curado del veneno, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno));
                         (battle+1)->veneno =0;
                         getchar();
                     }  
@@ -610,12 +607,12 @@ int main(){
                 if ((battle+1)->regeneracion ==1)
                 {
                     (battle+1)->conta_regeneracion--;
-                    printf("%s (%s) recupera 5hp \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) recupera 5hp \n",(battle+1)->name,mostrar_turno(definir_turno));
                     getchar();
                     (battle+1)->hp+=5;
                     if ((battle+1)->conta_regeneracion <= 0)
                     {
-                        printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) ha perdido la regeneracion, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno));
                         (battle+1)->regeneracion =0;
                         getchar();
                     }
@@ -624,11 +621,11 @@ int main(){
                 if ((battle+1)->furia ==1)
                 {
                     (battle+1)->conta_furia--;
-                    printf("%s (%s) Sigue enojado \n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                    printf("%s (%s) Sigue enojado \n",(battle+1)->name,mostrar_turno(definir_turno));
                     getchar();
                     if ((battle+1)->conta_furia <= 0)
                     {
-                        printf("%s (%s) ha calmado, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno,param_ptr));
+                        printf("%s (%s) ha calmado, a vuelto a la normalidad\n",(battle+1)->name,mostrar_turno(definir_turno));
                         (battle+1)->furia =0;
                         getchar();
                     }
