@@ -79,16 +79,10 @@ int main()
 
   /* can you print it using pointer math :) ? */
 
-for (int i = 0; i<3;i++){
 
-  char *current_string = *(cmtx_ptr + i);
-      
-  char *char_ptr = current_string;
-  while (*char_ptr != '\0') {
-  printf("%c",*char_ptr);
-    char_ptr++;
-  }
-}
+  char *current_string = cmtx_ptr;
+  printf("%s %s %s\n", *(current_string),*(current_string+1),*(current_string+2));
+
 
   /* can you print it with brackers [] ? */
 
