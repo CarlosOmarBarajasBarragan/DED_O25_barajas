@@ -19,7 +19,7 @@ int count = 0;
 void push(int data) 
 {
 
-  stack_node * newNode;
+  stack_node * newNode = malloc(sizeof(stack_node));
   newNode->info = data;
   newNode->prev = NULL; 
 
@@ -34,6 +34,7 @@ void push(int data)
 
   printf("\tnode inserted\n");
   }
+  count++;
 }
 
 // For this version of the integer stack, it returns -1 if there is nothing to pop
@@ -45,10 +46,12 @@ int pop()
   else{
     stack_node * temp = stack_top;
     stack_top = stack_top->prev;
+    int val = temp->info;
     free(temp);
-      return 0;
+    return val;
+  
+  count--;
   }
-
 }
 
 // Displays the current elements in the stack
@@ -71,13 +74,53 @@ void display()
   printf("NULL\n\n");
 }
 
+void isEmpty() 
+{
+  
+  if (count == 0)
+  {
+      printf("\nStack is empty\n");
+      return;
+  } else  {
+      printf("\nSize is %d\n", count);
+      return;
+  }
+  
+
+}
+
+void Destroy() 
+{
+  
+  stack_node * nptr = stack_top;
+  
+  if (nptr == NULL)
+  {
+      printf("\nStack is empty\n");
+      return;
+  }
+  
+  while (nptr != NULL)
+  {
+    stack_node * temp;
+    temp = nptr->prev;
+    free(nptr);
+    nptr = temp;
+    count--;
+
+  }
+  printf("\nDestroyed\n");
+  stack_top = NULL;
+
+}
+
 int main() 
 {
   int choice, value, ret;
   printf("\nSTACK:\n");
   while (1) 
   {
-    printf("\n1. Push\n2. Pop\n3. Display\n4. Exit\n");
+    printf("\n1. Push\n2. Pop\n3. Display\n4. IsEmpty\n5. Destroy\n6. Exit\n");
     printf("\n\tChoice : ");
     ret = scanf("%d", &choice);
     switch (choice) 
@@ -94,8 +137,15 @@ int main()
         display();
         break;
       case 4:
+        isEmpty();
+        break;
+      case 5:
+        Destroy();
+        break;
+      case 6:
         exit(0);
         break;
+
       default:
         printf("\nWrong Choice\n");
     }
