@@ -33,7 +33,7 @@ void torresDeHanoi(int n, char varilla_origen, char varilla_destino, char varill
 
 int main() {
     // Número de discos para el juego. Puedes cambiar este valor.
-    int numero_de_discos = 10; 
+    int numero_de_discos = 3; 
     
     // Se llama a la función principal con las varillas A (Origen), C (Destino) y B (Auxiliar).
     printf("Solucion para las Torres de Hanoi con %d discos:\n", numero_de_discos);
