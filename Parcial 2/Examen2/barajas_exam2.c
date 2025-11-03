@@ -142,13 +142,13 @@ node * joinlist(node * ListaInicial, node * Lista2){
 
   node * temp = NULL;
   node * nextL =NULL;
-  if(ListaInicial->value<Lista2->value){
+  if((ListaInicial->value)<(Lista2->value)){
   temp = ListaInicial;
   nextL = Lista2;
   }
-  else if(ListaInicial->value>Lista2->value) {
-  node * temp = Lista2;
-  node * nextL = ListaInicial;
+  else{
+  temp = Lista2;
+  nextL = ListaInicial;
   }
 
 
