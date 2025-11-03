@@ -12,6 +12,7 @@ typedef struct pollito
 int main() {
 
   queue *  q1 = queue_create();
+  
   queue * string_q = queue_create();
   queue *
    matadero = queue_create();
@@ -67,7 +68,7 @@ int main() {
   queue_enqueue(q1, &p2);
   queue_enqueue(q1, &p3);
   queue_enqueue(q1, ptr_p);
-
+   
   /* el matadero */
   while(!queue_isEmpty(q1))
   {

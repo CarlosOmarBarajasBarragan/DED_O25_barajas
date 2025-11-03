@@ -8,6 +8,7 @@ int main() {
     Date d2 = date_create(1, 1, 2024);
     Date d3 = date_create(31, 12, 2023);
 
+
     print_short(d1);
     print_long(d1);
 
