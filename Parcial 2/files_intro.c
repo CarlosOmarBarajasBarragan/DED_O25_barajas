@@ -9,6 +9,8 @@ Reading files always requires a file handler. This is a pointer of type FILE.
 FILE * fp;
 fp = fopen ("file.txt", "w+");
 
+rewnid (file_ptr) te regresa al inicio del archivo
+
 Once we have our FILE pointer, we must open the file in the correct read/write mode.
 After using the file, we must close it with fclose().
 
@@ -20,6 +22,79 @@ a   "append" writes at the end of text   | ab
 r+  read and write (file must exist)     | r+b or rb+
 w+  creates an empty file for read/write | w+b or wb+
 a+  opens the file for read and append   | a+b or wb+
+
+
+Binary
+Two functions to consider:​
+
+READ:​
+
+fread, reads from file, count number of elements of size size. The read contents are put in ptr. Returns the number of bytes read.​
+
+size_t fread(void *ptr, size_t size, size_t count, FILE *file)​
+
+​
+
+WRITE​
+
+fwrite, writes into file the data stored in ptr, you need to specify its size and how many elements they are.​
+
+size_t fwrite(void *ptr, size_t size, size_t count, FILE *file)
+
+  ptr is the pointer to the variable that will catch all the data we read. Its type and size must match what we read; ptr  also needs to point to a valid address that contain the space to store the data. Meaning it WONT allocate memory for it. Must not be NULL.​
+
+  size is the size of the data we want to read in bytes​
+
+  count is the number of consecutive elements we want to read, this is useful if ptr is an array.​
+
+  file is the pointer to the file in question, must be open before for reading​
+
+  Reuturns 0 if we get to the EOF
+
+----------------
+To write data into a binary file:​
+
+	size_t fwrite(void *ptr, size_t size, size_t count, FILE *file)​
+
+ptr is a pointer to the data we want to write… it can be anything: variable, struct, union, array etc. ​
+
+size  is the size of the data in bytes we want to write: sizeof.​
+
+count the number of consecutive things we want to write (if ptr is an array).​
+
+file pointer to the file ​
+
+Returns the number of items written succesfully.
+----------
+If you want to read and write at the same time over a text file or binary file (a+ or ab+) its important to be able to move the cursor at will at the desired position.​
+
+With the next function we can MOVE the pointer at any position we want, a number certain of bytes (offset) starting from a reference point whence​
+
+​
+
+	int fseek(FILE *file, long int offset, int whence)​
+
+​
+
+Returns 0 if movign the cursor was succesful.​
+
+whence: can be:	 ​
+
+	SEEK_SET (start of file), SEEK_CUR (current position),  SEEK_END(end of file).​
+
+​
+
+PS. You can move negative positions too. 
+
+Option 1 : from the CURRENT position, seek back size of struct. (move negative bytes)​
+
+	fseek(f, -sizeof(MyStruct), SEEK_CUR);​
+
+Option 2. If we know where the struct start, we can move that many bytes from the start:​
+
+	fseek(f, i * sizeof(MyStruct), SEEK_SET);​
+
+
 
 */
 
