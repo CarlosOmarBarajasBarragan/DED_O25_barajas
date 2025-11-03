@@ -78,4 +78,51 @@ int main()
   of our pointers, were created with STATIC memory and the program will free that
   memory for us as soon as the scope of the variable ends. */
 
+  #include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n = 5;
+    int *ptr_malloc;
+    int *ptr_calloc;
+
+    // --- 1. Usando malloc ---
+    // Pedimos 5 * sizeof(int) bytes
+    ptr_malloc = (int*)malloc(n * sizeof(int));
+    
+    if (ptr_malloc == NULL) {
+        printf("Fallo malloc\n");
+        return 1;
+    }
+
+    printf("Contenido de ptr_malloc (basura):\n");
+    for (int i = 0; i < n; i++) {
+        // Esto imprimirá valores impredecibles (basura)
+        printf("ptr_malloc[%d] = %d\n", i, ptr_malloc[i]);
+    }
+
+    printf("\n----------------------------------\n\n");
+
+    // --- 2. Usando calloc ---
+    // Pedimos 5 elementos, cada uno de sizeof(int)
+    ptr_calloc = (int*)calloc(n, sizeof(int));
+    
+    if (ptr_calloc == NULL) {
+        printf("Fallo calloc\n");
+        free(ptr_malloc); // No olvides liberar la memoria anterior
+        return 1;
+    }
+
+    printf("Contenido de ptr_calloc (ceros):\n");
+    for (int i = 0; i < n; i++) {
+        // Esto imprimirá 0 en todos los casos
+        printf("ptr_calloc[%d] = %d\n", i, ptr_calloc[i]);
+    }
+
+    // --- 3. Liberar memoria ---
+    free(ptr_malloc);
+    free(ptr_calloc);
+
+    return 0;
+}
   /* ==================================================================== */
