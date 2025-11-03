@@ -140,20 +140,24 @@ void printlist(node * n)  // NO TOCAR
 
 node * joinlist(node * ListaInicial, node * Lista2){
 
-  node * temp = ListaInicial;
-  node * nextL = Lista2;
+  node * temp = NULL;
+  node * nextL =NULL;
+  if(ListaInicial->value<Lista2->value){
+  temp = ListaInicial;
+  nextL = Lista2;
+  }
+  else if(ListaInicial->value>Lista2->value) {
+  node * temp = Lista2;
+  node * nextL = ListaInicial;
+  }
+
 
 
 while(temp->next != NULL){
-  printf("%d",temp->value);
   temp = temp->next;
 }
-  printf("%d",temp->value);
 temp->next = nextL;
-while(temp->next != NULL){
-  printf("%d",temp->value);
-  temp = temp->next;
-}
+
 
 temp = ListaInicial;
 
@@ -185,7 +189,7 @@ int e02()
   printlist(L2);
   // DESCOMENTA ESTA LÍNEA CUANDO TENGAS TU FUNCIÓN
   result = joinlist(L1, L2);
-  //printlist(result);
+  printlist(result);
    /* NO TOCAR */
   return 0;
 }
