@@ -144,26 +144,83 @@ void learn_building_tree()
  
   //contains (iterative)
 
-  printf("Does my tree contains 28? %s", 
+  printf("\n Does my tree contains 28? %s", 
          contains_iter(root, 28) ? "\tTRUE\n":"\tFALSE\n");
 
   printf("Does my tree contains 25? %s", 
          contains_iter(root, 25) ? "\tTRUE\n":"\tFALSE\n");
 
-  boolean contains_42 = contains_iter(root, 42);
+  boolean contains_42 = contains_recur(root, 42);
   if(contains_42)
     printf("My tree contains 42!\n");
   else
     printf("My tree does NOT contain 42 :( \n");
-
-  //contains (recursivo) 
-  //Complete and try
 }
+
+boolean add_recu(node *n, int value){
+
+  if (n == NULL) {
+        return FALSE;
+    }
+
+  if(value == n->value){
+    return FALSE;
+  }
+
+  if(value < n->value){
+    if (n->left == NULL){
+      node * newNode = create_node(value);
+      n->left = newNode;
+      return TRUE;
+    }
+    return add_recu(n->left,value);
+  }
+  else{
+      if (n->right == NULL){
+      node * newNode = create_node(value);
+      n->right = newNode;
+      return TRUE;
+    }
+    return add_recu(n->right,value);
+  }
+
+};
 
 boolean add_iter(int num)
 {
 
-  return TRUE;
+  if (root == NULL){
+    node * rn = create_node(num);
+    root = rn;
+    return TRUE;
+  }
+
+  node * curr = root;
+
+
+
+  while (curr != NULL){
+    if(curr->value == num){
+      return FALSE;
+    }
+
+    if (num < curr->value){
+      node * newNode = create_node(num);
+      if(curr->left == NULL){
+        curr->left = newNode; 
+        return TRUE;
+      }
+      curr = curr->left;
+    }
+    else{
+      node * newNode = create_node(num);
+      if(curr->right == NULL){
+        curr->right = newNode;
+        return TRUE;
+      }
+      curr = curr->right;
+    }
+  }
 }
 
 void print_inorder(node *n)
@@ -229,13 +286,38 @@ void print_postorder(node * n){
 
 boolean contains_recur(node * n, int value)
 {
-  return TRUE;
+  if(n == NULL){
+    return FALSE;
+  }
+  if(n->value == value){
+    return TRUE;
+    }
+  
+  else if (value < n->value) {
+        return contains_recur(n->left, value);
+    }
+    else { 
+        return contains_recur(n->right, value);
+    }
 }
 
 boolean contains_iter(node * n, int value)
 {
-  
-  return FALSE;
+
+  node * curr = n;
+
+  while (curr != NULL){
+  if(curr->value == value){
+    return TRUE;
+    }
+    else if (value < curr->value){
+      curr = curr->left;
+    }
+    else{
+      curr = curr->right;
+    }
+  }
+    return FALSE;
 }
 
 int main()
@@ -246,6 +328,6 @@ int main()
   learn_traversing_tree();
 
   /* Example 2 contains the code to add nodes and create a tree */
-  //learn_building_tree(); 
+  learn_building_tree(); 
 }
 
