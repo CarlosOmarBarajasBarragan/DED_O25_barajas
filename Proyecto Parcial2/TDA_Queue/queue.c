@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queue.h"
+#include "../bool.h"
+
 
 struct strNode{
     void * data;
@@ -29,14 +31,9 @@ int queue_size(queue Q){
     return Q->size;
 };
 
-boolean queue_isEmpty(queue Q){
-    if (Q->size == 0){
-        return TRUE;
-    }
-    else{
-        return FALSE;
-    }
-};
+Bool queue_isEmpty(queue Q){
+    return Q->size == 0;
+}
 
 void queue_enqueue(queue Q , void * D){
     node * n= (node*)malloc(sizeof(struct strNode));
@@ -57,52 +54,54 @@ void queue_enqueue(queue Q , void * D){
 
 };
 
-void * queue_dequeue(queue Q) {
-    if (Q == NULL || Q->head == NULL) {
-        printf("Queue vacio\n");
+void *queue_dequeue(queue Q) 
+{
+    if(Q == NULL || Q->head == NULL) 
+    {
+        printf("Queue vacía\n");
         return NULL;
     }
-        node * temp = Q->head;
-        node * newHead = Q->head->next;
-        void * data = temp->data;
- 
-    if (Q->head == Q->tail) {
-        Q->head = NULL;
+
+    node *temp = Q->head;
+    void *data = temp->data;
+
+    Q->head = temp->next;
+    if(Q->head == NULL) 
+    {
         Q->tail = NULL;
     }
-    else {
-
- 
-        Q->head = newHead;
-        }
 
     free(temp);
     Q->size--;
     return data;
-} 
+}
 
-void * queue_peek(queue Q){
-    if(queue_isEmpty(Q)){
-        printf("Queue vacio\n");
+
+void *queue_peek(queue Q) 
+{
+    if (queue_isEmpty(Q)) 
+    {
+        printf("Queue vacía\n");
         return NULL;
     }
-    void * data = Q->head->data;
-    return data;
+    
+    return Q->head->data;
+}
 
-};
-void queue_destroy(queue Q) {
-    if (Q == NULL) {
+void queue_destroy(queue q) 
+{
+    if(!q) 
+    {
         return;
     }
-    node * current = Q->head;
-    
 
-    node * next_node;
-
-    while (current != NULL) {
+    node *current = q->head;
+    while(current) 
+    {
+        node *next_node = current->next;
         free(current);
         current = next_node;
     }
-    Q->size = 0;
-    free(Q);
-};
+
+    free(q);
+}

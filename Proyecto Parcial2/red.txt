@@ -1,0 +1,8 @@
+7
+Carlos 24 H
+Lucia 22 M
+Pedro 25 H
+Valeria 20 M
+Miguel 23 H
+Sofia 19 M
+Cristiano 35 H

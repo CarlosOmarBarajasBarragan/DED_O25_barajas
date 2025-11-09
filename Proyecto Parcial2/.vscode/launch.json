@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/djimenez/Documents/skl/Tercer semestre/C/DED_O25_barajas/Proyecto Parcial2",
+      "program": "/Users/djimenez/Documents/skl/Tercer semestre/C/DED_O25_barajas/Proyecto Parcial2/build/Debug/outDebug"
+    }
+  ]
+}
