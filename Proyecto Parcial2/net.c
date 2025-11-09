@@ -221,13 +221,13 @@ void net_delUserGender(user* list, user todel)
 void net_updateFollowers(net n, user deletedUser)
 {
     user aux = n->list;
-    while (!aux)
+    while (aux)
     {
         for (int i = 0; i < aux->followCount; i++)
         {
             if (aux->follows[i] == deletedUser)
             {
-                // desplazar los siguientes followers una posición hacia atrás
+                // desplazar los siguientes followers una posición hacia atras
                 for (int j = i; j < aux->followCount - 1; j++)
                 {
                     aux->follows[j] = aux->follows[j + 1];
