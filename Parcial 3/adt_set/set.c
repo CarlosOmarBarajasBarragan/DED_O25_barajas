@@ -19,6 +19,11 @@ typedef struct node
 
 set * set_create (compare_func cf, print_func pf){
     set * newSet;
+    newSet = malloc(sizeof(set));
+
+    if (newSet == NULL) {
+        return NULL; 
+    }
 
     newSet->root = NULL;
     newSet->size = 0;
@@ -31,6 +36,11 @@ set * set_create (compare_func cf, print_func pf){
 node * create_node(void * data)
 {
   node * n = malloc (sizeof(node));
+
+  if (n == NULL) {
+    return NULL; 
+    }
+
   n->data = data;
   n->left = NULL;
   n->right = NULL;
@@ -56,7 +66,7 @@ boolean set_add(set * s, void * data){
     int comp = s->compare(data,current->data);
 
     if(comp == 0){
-        printf("No s epermiten datos duplicados\n");
+        printf("No se permiten datos duplicados\n");
         return FALSE;
     }
     else if(comp < 0){
@@ -128,7 +138,7 @@ void set_print (set *s){
 
     stack * node_stack = stack_create();
 
-    while(curr!=NULL || (stack_size() != 0)){
+    while(curr!=NULL || (stack_size(node_stack) != 0)){
 
     while(curr != NULL){
 
@@ -152,7 +162,7 @@ void set_destroy (set * s){
 
     stack * node_stack = stack_create();
 
-    while(curr!=NULL || (stack_size() != 0)){
+    while(curr!=NULL || (stack_size(node_stack) != 0)){
 
     while(curr != NULL){
 

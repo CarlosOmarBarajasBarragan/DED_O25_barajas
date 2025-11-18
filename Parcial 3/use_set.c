@@ -17,12 +17,13 @@ int compareStrings(void * t1, void * t2) {
 
 void printInt(void * t) {
   int* i = (int*) t;
-  printf("%2d", *i);
+  printf(" %2d ", *i);
 }
+
 
 void printString(void * t) {
   char* c = (char*) t;
-  printf("%s", c);
+  printf(" %s ", c);
 }
 
 int main() {
@@ -74,6 +75,7 @@ int main() {
 
   printf("LETS SEE THE CONTENTS OF BOTH SETS:\n");
   set_print(intSet);
+  printf("\n");
   set_print(stringSet);
 
   //COMPLETE ME
