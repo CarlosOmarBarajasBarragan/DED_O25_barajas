@@ -47,10 +47,28 @@ int main(){
     printf("Direccion de i_ptr[10]= %p\n", &i_ptr[10]);
     printf("Contenido de i_ptr[10]= %d\n", i_ptr[10]);
 
+    }
+
+    i_ptr = NULL;
+
+    for (int i = 0; i <10; i++){
+    i_ptr = (int*)malloc(64*sizeof(int));
+    i_ptr[10] = 5000;
+
+    printf("Direccion de i_ptr= %p\n", &i_ptr);
+    printf("Direccion de i_ptr[10]= %p\n", &i_ptr[10]);
+    printf("Contenido de i_ptr[10]= %d\n", i_ptr[10]);
 
 
+    free(i_ptr);
 
-    
+    printf("----------------------Despues de free----------------------------");
+
+
+    printf("Direccion de i_ptr= %p\n", &i_ptr);
+    printf("Direccion de i_ptr[10]= %p\n", &i_ptr[10]);
+    printf("Contenido de i_ptr[10]= %d\n", i_ptr[10]);
+
     }
 
 
