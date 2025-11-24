@@ -109,29 +109,6 @@ boolean set_contains (set * s, void * data){
 };
 
 
-boolean set_remove (set * s, void * data){
-
-    node * prev = NULL;
-    node * curr = s->root;
-
-    while (curr != NULL){
-    if(s->compare(data,curr->data) == 0){
-        
-        return TRUE;
-        }
-        else if (s->compare(data,curr->data) < 0){
-        curr = curr->left;
-        }
-        else{
-        curr = curr->right;
-        }
-    }
-
-    return FALSE;
-
-
-};
-
 void set_print (set *s){
 
     node * curr = s->root;

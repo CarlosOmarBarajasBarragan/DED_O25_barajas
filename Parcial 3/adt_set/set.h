@@ -21,7 +21,6 @@ boolean set_contains (set * s, void * data);
 
 void set_destroy (set * s);
 
-boolean set_remove (set * s, void * data);
 
 void set_print (set *s);
 
