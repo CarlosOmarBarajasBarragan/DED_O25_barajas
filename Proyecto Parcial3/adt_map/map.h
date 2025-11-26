@@ -1,6 +1,7 @@
 #ifndef MAP_H_
 #define MAP_H_
 
+
 typedef int boolean;
 #define TRUE 1
 #define FALSE 0

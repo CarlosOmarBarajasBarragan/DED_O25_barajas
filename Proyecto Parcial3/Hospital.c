@@ -41,7 +41,6 @@ paciente * create_paciente(int id,char nombre[],int urgencia){
     nuevo_paciente->id=id;
     strcpy(nuevo_paciente->name,nombre);
     nuevo_paciente->urgencia=urgencia;
-    strcpy(nuevo_paciente->urgencia,urgencia);
 
     nuevo_paciente->historial_medico=stack_create();
     return nuevo_paciente;

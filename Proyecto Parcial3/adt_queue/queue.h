@@ -1,9 +1,9 @@
 #ifndef QUEUE_H
 #define QUEHUE_H
 
-#include <stdbool.h>
 
-typedef bool boolean;
+
+typedef int boolean;
 #define TRUE 1
 #define FALSE 0
 
