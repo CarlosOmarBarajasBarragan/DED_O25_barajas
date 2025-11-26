@@ -1,2 +1,108 @@
-#include "stdio.h"
-#include "stdlib.h"
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// .h
+#include "Hospital.h"
+#include "adt_stack/stack.h"
+#include "adt_map/map.h"
+#include "adt_queue/queue.h"
+
+
+struct paciente_str
+{
+    int id;
+    char name[40];
+    char padecimiento[40];
+    int urgencia;
+    stack * historial_medico;
+};
+struct doctor_str
+{
+    int id;
+    char name[40];
+    char especialidad[40];
+    queue * fila_pacientes;
+};
+
+struct Hospital_Manager_str
+{
+    map * lista_doctores;
+    // Falta el grafo y el priority queue
+    
+
+    
+};
+
+
+// Creacion de nodos
+paciente * create_paciente(int id,char nombre[],char padecimiento[],int urgencia){
+    paciente * nuevo_paciente = (paciente*) malloc(sizeof(paciente));
+
+    nuevo_paciente->id=id;
+    strcpy(nuevo_paciente->name,nombre);
+
+    strcpy(nuevo_paciente->padecimiento,padecimiento);
+
+    nuevo_paciente->urgencia=urgencia;
+    strcpy(nuevo_paciente->urgencia,urgencia);
+
+    nuevo_paciente->historial_medico=stack_create();
+    return nuevo_paciente;
+}
+
+doctor * create_doctor(int id,char name[]){
+    doctor * nuevo_doctor = (doctor*) malloc(sizeof(doctor));
+
+    nuevo_doctor->id=id;
+    strcpy(nuevo_doctor->name,name);
+
+    nuevo_doctor->fila_pacientes=queue_create();
+    return nuevo_doctor;
+
+}
+
+
+hospital_manager * create_hospital_manager(int m,hash_func hash,CompareFunc compare){
+   hospital_manager * nuevo_hospital_manager = (hospital_manager*) malloc(sizeof(hospital_manager));
+
+   nuevo_hospital_manager->lista_doctores=map_create(m,hash,compare);
+   // Falta el grafo y el priority queue
+}
+
+
+
+/* En lugar de fila_especialista puede recibir puntero a su doctor */
+
+void solicitar_consulta(paciente * P,doctor * D){
+
+    queue_enqueue(D->fila_pacientes,P);
+
+    printf("El paciente: %S con padecimiento: %S, 
+    ha agendado cita con: %S \n", P->name, P->padecimiento,D->name);
+    
+}
+
+void solicitar_urgencia(paciente * P, /*hospital manager contiene: pq * lista_urgencias */){
+
+   /* pq_enqueue(H->Urgencias,P);
+
+    printf("El paciente: %S con padecimiento: %S, de urgencia: %S
+    ha llegado a sala de urgencias \n", P->name, P->padecimiento,P->Urgencia);
+    */
+}
+
+
+
+void atender_consulta(doctor * D){
+    paciente * atendiendo = queue_dequeue(D->fila_pacientes);
+
+    char[100] = ultima_visita;
+
+    strcpy(ultima_visita,stack_pop(atendiendo->historial_medico));
+
+    printf("La ultima consulta de %S fue: %S \n",
+    atendiendo->name,ultima_vista);
+    
+}
+
