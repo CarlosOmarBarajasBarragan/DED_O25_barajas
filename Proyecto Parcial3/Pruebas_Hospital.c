@@ -4,35 +4,7 @@
 
 // .h
 #include "Hospital.h"
-#include "adt_stack/stack.h"
-#include "adt_map/map.h"
-#include "adt_queue/queue.h"
 
-
-struct paciente_str
-{
-    int id;
-    char name[40];
-    char padecimiento[40];
-    int urgencia;
-    stack * historial_medico;
-};
-struct doctor_str
-{
-    int id;
-    char name[40];
-    char especialidad[40];
-    queue * fila_pacientes;
-};
-
-struct Hospital_Manager_str
-{
-    map * lista_doctores;
-    // Falta el grafo y el priority queue
-    
-
-    
-};
 
 
 // Creacion de nodos
