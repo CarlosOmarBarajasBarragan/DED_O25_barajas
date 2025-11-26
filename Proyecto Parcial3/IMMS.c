@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // -h
 #include "Hospital.h"
@@ -21,3 +22,16 @@ boolean wordEquals(void * t1, void * t2) {
   return strcmp(c1, c2) == 0;
 }
 
+int main(){
+  paciente * p1 = create_paciente(01,"Jorge",10);
+  doctor * d1 = create_doctor(9,"Alberto");
+
+  solicitar_consulta(p1,"Gripa",d1);
+
+  atender_consulta(d1);
+
+  solicitar_consulta(p1,"Tos",d1);
+
+  atender_consulta(d1);
+
+}

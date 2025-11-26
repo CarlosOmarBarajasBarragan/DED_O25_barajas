@@ -5,7 +5,34 @@
 // .h
 #include "Hospital.h"
 
+#include "adt_stack/stack.h"
+#include "adt_map/map.h"
+#include "adt_queue/queue.h"
 
+struct paciente_str {
+    int id;
+    char name[40];
+    char padecimiento[40];
+    int urgencia;
+    stack * historial_medico;
+};
+
+struct doctor_str
+{
+    int id;
+    char name[40];
+    char especialidad[40];
+    queue * fila_pacientes;
+};
+
+struct Hospital_Manager_str
+{
+    map * lista_doctores;
+    // Falta el grafo y el priority queue
+    
+
+    
+};
 
 // Creacion de nodos
 paciente * create_paciente(int id,char nombre[],int urgencia){
@@ -32,7 +59,7 @@ doctor * create_doctor(int id,char name[]){
 }
 
 
-hospital_manager * create_hospital_manager(int m,hash_func hash,CompareFunc compare){
+hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compare){
    hospital_manager * nuevo_hospital_manager = (hospital_manager*) malloc(sizeof(hospital_manager));
 
    nuevo_hospital_manager->lista_doctores=map_create(m,hash,compare);
@@ -43,13 +70,16 @@ hospital_manager * create_hospital_manager(int m,hash_func hash,CompareFunc comp
 
 /* En lugar de fila_especialista puede recibir puntero a su doctor */
 
-void solicitar_consulta(paciente * P,char padecimiento[],doctor * D){
 
-    strcpy(P->padecimiento,padecimiento);
+void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) {
 
-    queue_enqueue(D->fila_pacientes,P);
+    strcpy(P->padecimiento, padecimiento);
 
-    printf("El paciente: %S con padecimiento: %S, ha agendado cita con: %S \n", P->name, P->padecimiento,D->name);
+    queue_enqueue(D->fila_pacientes, P);
+
+    printf("El paciente: %s con padecimiento: %s, ha agendado cita con: %s \n", 
+           P->name, P->padecimiento, D->name);
+
     
 }
 
@@ -63,27 +93,28 @@ void solicitar_urgencia(paciente * P){
 }
 
 
+void atender_consulta(doctor * D) {
+    paciente * atendiendo = (paciente *) queue_dequeue(D->fila_pacientes);
 
-void atender_consulta(doctor * D){
-    paciente * atendiendo = queue_dequeue(D->fila_pacientes);
+    if (atendiendo == NULL) return; 
 
-    char ultima_visita [100];
-    strcpy(ultima_visita,stack_pop(atendiendo->historial_medico));
+    char ultima_visita[40];
+    void * dato = NULL;
 
-    printf("La ultima visita de %S fue: %S",
-    atendiendo->name,ultima_visita);
+    if (atendiendo->historial_medico != NULL) {
+        dato = stack_pop(atendiendo->historial_medico);
+    }
+    if (dato != NULL) {
+        strcpy(ultima_visita, (char*)dato);
+        printf("La ultima visita de %s tenia: %s\n", atendiendo->name, ultima_visita);
+        
+        stack_push(atendiendo->historial_medico, dato);
+    } else {
+        printf("Sin historial medico\n");
+    }
+    char * visita_actual = strdup(atendiendo->padecimiento);
+    stack_push(atendiendo->historial_medico, visita_actual);
+
     
-    
-}
-
-int main(){
-
-    paciente * p1 = create_paciente(01,"Jorge",10);
-    doctor * d1 = create_doctor(9,"Alberto");
-
-    solicitar_consulta(p1,"Gripa",d1);
-
-    atender_consulta(d1);
-
-
+    printf("%s ha sido atendido\n", atendiendo->name);
 }
