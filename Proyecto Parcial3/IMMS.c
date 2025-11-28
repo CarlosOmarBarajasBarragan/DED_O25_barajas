@@ -26,11 +26,11 @@ int main(){
   paciente * p1 = create_paciente(01,"Jorge",10);
   doctor * d1 = create_doctor(9,"Alberto");
 
-  solicitar_consulta(p1,"Gripa",d1);
+  solicitar_consulta(p1,"Anemia",d1);
 
   atender_consulta(d1);
 
-  solicitar_consulta(p1,"Tos",d1);
+  solicitar_consulta(p1,"SIda",d1);
 
   atender_consulta(d1);
 
