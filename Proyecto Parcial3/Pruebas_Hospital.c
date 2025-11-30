@@ -102,21 +102,20 @@ void atender_consulta(doctor * D) {
     void * dato = NULL;
 
     if (atendiendo->historial_medico != NULL) {
-        //stack_top esta es la funcion de peek
-        dato = stack_pop(atendiendo->historial_medico);
+        //Dato recibe si tiene una ultima consulta
+        dato = stack_top(atendiendo->historial_medico);
         
     }
+
+
     if (dato != NULL) {
         strcpy(ultima_visita, (char*)dato);
         printf("La ultima visita de %s tenia: %s\n", atendiendo->name, ultima_visita);
         
-        stack_push(atendiendo->historial_medico, dato);
     } else {
         printf("Sin historial medico\n");
     }
     //char * visita_actual = strdup(atendiendo->padecimiento);
     stack_push(atendiendo->historial_medico, atendiendo->padecimiento);
-
-    
     printf("%s ha sido atendido\n", atendiendo->name);
 }
