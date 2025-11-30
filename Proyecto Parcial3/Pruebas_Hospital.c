@@ -102,6 +102,7 @@ void atender_consulta(doctor * D) {
     void * dato = NULL;
 
     if (atendiendo->historial_medico != NULL) {
+        //stack_top esta es la funcion de peek
         dato = stack_pop(atendiendo->historial_medico);
         
     }
