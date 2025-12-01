@@ -29,7 +29,8 @@ struct doctor_str
 struct Hospital_Manager_str
 {
     map * lista_doctores;
-    // Falta el grafo y el priority queue
+    pq * lista_urgencias;
+    // Falta el grafo 
     
 
     
@@ -64,7 +65,8 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
    hospital_manager * nuevo_hospital_manager = (hospital_manager*) malloc(sizeof(hospital_manager));
 
    nuevo_hospital_manager->lista_doctores=map_create(m,hash,compare);
-   // Falta el grafo y el priority queue
+   nuevo_hospital_manager->lista_urgencias=pq_create(m,compare);
+   // Falta el grafo 
 }
 
 
@@ -84,19 +86,15 @@ void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) { // hosp
         printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
             P->name, P->padecimiento, D->name); // aqui se cambia con el manager
         atender_consulta(D);
+        return;
         
     }else{
         // Logica de urgencias
     }
     
-
-
-    // Aqui va evaluar si es una urgencia
-
-    
 }
 
-void solicitar_urgencia(paciente * P){
+void atender_urgencia(paciente * P){
 
    // pq_enqueue(H->Urgencias,P);
 
@@ -129,6 +127,6 @@ void atender_consulta(doctor * D) {
         printf("Sin historial medico\n");
     }
     char * visita_actual = strdup(atendiendo->padecimiento);
-    stack_push(atendiendo->historial_medico, atendiendo->padecimiento);
+    stack_push(atendiendo->historial_medico, visita_actual);
     printf("%s ha sido atendido\n", atendiendo->name);
 }

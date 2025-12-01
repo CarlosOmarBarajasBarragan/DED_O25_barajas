@@ -23,16 +23,17 @@ boolean wordEquals(void * t1, void * t2) {
 }
 
 int main(){
-  paciente * p1 = create_paciente(01,"Jorge",10);
+  paciente * p1 = create_paciente(01,"Jorge",3);
   doctor * d1 = create_doctor(9,"Alberto");
+  printf("Hola");
 
   solicitar_consulta(p1,"Anemia",d1);
 
-  //atender_consulta(d1);
+ 
   getchar();
 
   solicitar_consulta(p1,"SIda",d1);
 
- // atender_consulta(d1);
+
 
 }
