@@ -81,6 +81,8 @@ void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) {
     printf("El paciente: %s con padecimiento: %s, ha agendado cita con: %s \n", 
            P->name, P->padecimiento, D->name);
 
+    // Aqui va evaluar si es una urgencia
+
     
 }
 
