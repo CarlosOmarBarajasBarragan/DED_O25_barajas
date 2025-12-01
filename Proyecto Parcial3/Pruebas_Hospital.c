@@ -35,6 +35,8 @@ struct Hospital_Manager_str
 
     
 };
+// Declaraciones de las funciones
+void agendar_consulta(paciente * P, char padecimiento[], doctor * D);
 
 // Creacion de nodos
 paciente * create_paciente(int id,char nombre[],int urgencia){
@@ -79,19 +81,24 @@ void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) { // hosp
     if (P->urgencia <= 5)
     {// Atender consulta normal, no ocupa urgencia
         
-        strcpy(P->padecimiento, padecimiento);
-
-        queue_enqueue(D->fila_pacientes, P);
-
-        printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
-            P->name, P->padecimiento, D->name); // aqui se cambia con el manager
-        atender_consulta(D);
+        agendar_consulta(P,padecimiento,D);
         return;
         
     }else{
         // Logica de urgencias
     }
     
+}
+
+void agendar_consulta(paciente * P,char padecimiento[],doctor * D){
+    strcpy(P->padecimiento, padecimiento);
+
+     queue_enqueue(D->fila_pacientes, P);
+
+    printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
+            P->name, P->padecimiento, D->name); // aqui se cambia con el manager
+    return;
+
 }
 
 void atender_urgencia(paciente * P){
