@@ -40,12 +40,12 @@ struct Hospital_Manager_str
 paciente * create_paciente(int id,char nombre[],int urgencia){
     paciente * nuevo_paciente = (paciente*) malloc(sizeof(paciente));
 
-    nuevo_paciente->id=id;
+    nuevo_paciente->id = id;
     strcpy(nuevo_paciente->name,nombre);
 
     nuevo_paciente->urgencia=urgencia;
 
-    nuevo_paciente->historial_medico=stack_create();
+    nuevo_paciente->historial_medico = stack_create();
     return nuevo_paciente;
 }
 
@@ -55,7 +55,7 @@ doctor * create_doctor(int id,char name[]){
     nuevo_doctor->id=id;
     strcpy(nuevo_doctor->name,name);
 
-    nuevo_doctor->fila_pacientes=queue_create();
+    nuevo_doctor->fila_pacientes = queue_create();
     return nuevo_doctor;
 
 }
@@ -127,6 +127,6 @@ void atender_consulta(doctor * D) {
         printf("Sin historial medico\n");
     }
     char * visita_actual = strdup(atendiendo->padecimiento);
-    stack_push(atendiendo->historial_medico, visita_actual);
+    stack_push(atendiendo->historial_medico, atendiendo->padecimiento);
     printf("%s ha sido atendido\n", atendiendo->name);
 }
