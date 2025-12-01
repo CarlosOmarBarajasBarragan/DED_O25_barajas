@@ -115,7 +115,7 @@ void atender_consulta(doctor * D) {
     } else {
         printf("Sin historial medico\n");
     }
-    //char * visita_actual = strdup(atendiendo->padecimiento);
+    char * visita_actual = strdup(atendiendo->padecimiento);
     stack_push(atendiendo->historial_medico, atendiendo->padecimiento);
     printf("%s ha sido atendido\n", atendiendo->name);
 }
