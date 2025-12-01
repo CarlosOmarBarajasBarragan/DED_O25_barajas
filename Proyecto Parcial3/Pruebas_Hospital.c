@@ -8,6 +8,7 @@
 #include "adt_stack/stack.h"
 #include "adt_map/map.h"
 #include "adt_queue/queue.h"
+#include "adt_pq/pq.h"
 
 struct paciente_str {
     int id;
@@ -71,14 +72,26 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
 /* En lugar de fila_especialista puede recibir puntero a su doctor */
 
 
-void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) {
+void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) { // hospital_manager HM
 
-    strcpy(P->padecimiento, padecimiento);
+    if (P->urgencia <= 5)
+    {// Atender consulta normal, no ocupa urgencia
+        
+        strcpy(P->padecimiento, padecimiento);
 
-    queue_enqueue(D->fila_pacientes, P);
+        queue_enqueue(D->fila_pacientes, P);
 
-    printf("El paciente: %s con padecimiento: %s, ha agendado cita con: %s \n", 
-           P->name, P->padecimiento, D->name);
+        printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
+            P->name, P->padecimiento, D->name); // aqui se cambia con el manager
+        atender_consulta(D);
+        
+    }else{
+        // Logica de urgencias
+    }
+    
+
+
+    // Aqui va evaluar si es una urgencia
 
     
 }
