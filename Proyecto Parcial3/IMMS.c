@@ -28,10 +28,11 @@ int main(){
 
   solicitar_consulta(p1,"Anemia",d1);
 
-  atender_consulta(d1);
+  //atender_consulta(d1);
+  getchar();
 
   solicitar_consulta(p1,"SIda",d1);
 
-  atender_consulta(d1);
+ // atender_consulta(d1);
 
 }
