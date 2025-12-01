@@ -8,6 +8,7 @@
 #include "adt_stack/stack.h"
 #include "adt_map/map.h"
 #include "adt_queue/queue.h"
+#include "adt_pq/pq.h"
 
 struct paciente_str {
     int id;
