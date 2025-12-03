@@ -127,11 +127,11 @@
   void * map_get(map *m, void *key) 
   {
     /* 
-       Searches the key in the map, if found returns the data it maps to
-       if not found returns a void NULL pointer
+      Searches the key in the map, if found returns the data it maps to
+      if not found returns a void NULL pointer
        
-       we need to determine in which of the many linked list we need to search,
-       so compute bucket number just as we did with insert map_put*/
+      we need to determine in which of the many linked list we need to search,
+      so compute bucket number just as we did with insert map_put*/
     
     int bucket = m->hash(key) % m->M;
     node * n = m->hashTable[bucket];
