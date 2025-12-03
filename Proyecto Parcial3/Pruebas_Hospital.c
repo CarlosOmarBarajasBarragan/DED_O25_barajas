@@ -102,14 +102,32 @@ void agendar_consulta(paciente * P,char padecimiento[],doctor * D){
 
 }
 
-void atender_urgencia(paciente * P){
+void atender_urgencia(hospital_manager * h) {
 
-    
-    // pq_enqueue(H->Urgencias,P);
+    // Sacamos al paciente más urgente
+    paciente * p = (paciente*) pq_dequeue(h->lista_urgencias);
 
-    // printf("El paciente: %S con padecimiento: %S, de urgencia: %S
-    // ha llegado a sala de urgencias \n", P->name, P->padecimiento,P->Urgencia);
-    
+    if (p == NULL) {
+        printf("No hay pacientes en urgencias\n");
+        return;
+    }
+
+    // Checar si tiene historial
+    void * dato = NULL;
+    if (p->historial_medico != NULL) {
+        dato = stack_top(p->historial_medico);
+    }
+
+    if (dato != NULL) {
+        printf("Ultima visita de %s: %s\n", p->name, (char*)dato);
+    } else {
+        printf("No tiene historial medico\n");
+    }
+
+    // Guardar visita actual
+    stack_push(p->historial_medico, p->padecimiento);
+
+    printf("El paciente %s fue atendido en urgencias de nivel nivel %d\n",p->name, p->urgencia);
 }
 
 
