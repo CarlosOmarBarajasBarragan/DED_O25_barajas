@@ -32,7 +32,7 @@ int main(){
  
   getchar();
 
-  solicitar_consulta(p1,"SIda",d1);
+  solicitar_consulta(p1,"Gripa",d1);
 
 
 
