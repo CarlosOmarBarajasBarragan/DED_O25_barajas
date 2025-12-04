@@ -105,7 +105,7 @@ void agendar_consulta(paciente * P,char padecimiento[],doctor * D){
 void atender_urgencia(hospital_manager * h) {
 
     // Sacamos al paciente más urgente
-    paciente * p = (paciente*) pq_dequeue(h->lista_urgencias);
+    paciente * p = (paciente*) pq_poll(h->lista_urgencias);
 
     if (p == NULL) {
         printf("No hay pacientes en urgencias\n");
