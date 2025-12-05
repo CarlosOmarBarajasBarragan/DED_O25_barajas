@@ -36,6 +36,35 @@ int main(){
   solicitar_consulta(p1,"Gripa",d1);
   atender_consulta(d1);
 
+  int opcion=-1;
+
+  while (opcion != 6)
+  {
+    printf("Bienvenido al IMMS\n En que te puedo ayudar?\n");
+    printf("[0]- Agendar consulta\n");
+    printf("[1]- Atender consulta\n");
+    printf("[2]- Agendar consulta\n");
+    scanf("%d",&opcion);
+
+    switch (opcion)
+    {
+    case 0:
+
+      
+      break;
+    case 1:
+      
+      break;
+    case 2:
+      
+      break;
+    
+    default:
+      break;
+    }
+  }
+  
+
 
 
 }
