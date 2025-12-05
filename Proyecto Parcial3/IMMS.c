@@ -24,8 +24,21 @@ boolean wordEquals(void * t1, void * t2) {
 
 int main(){
   paciente * p1 = create_paciente(01,"Jorge",3);
-  doctor * d1 = create_doctor(9,"Alberto");
+
   
+  hospital_manager * IMSS = create_hospital_manager(17, wordHash, wordEquals);
+
+    doctor * d1 = create_doctor(1, "Dr. Simi", "General");
+    doctor * d2 = create_doctor(2, "Dr. House", "Diagnostico");
+    doctor * d3 = create_doctor(3, "Dr. Strange", "Cirujano");
+    doctor * d4 = create_doctor(4, "Dra. Polo", "Psiquiatria"); 
+    doctor * d5 = create_doctor(5, "Dr. Oogway", "General");
+
+    registrar_doctor(IMSS, d1);
+    registrar_doctor(IMSS, d2);
+    registrar_doctor(IMSS, d3);
+    registrar_doctor(IMSS, d4);
+    registrar_doctor(IMSS, d5);
 
   solicitar_consulta(p1,"Anemia",d1);
 
