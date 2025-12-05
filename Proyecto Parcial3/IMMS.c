@@ -35,8 +35,13 @@ int main(){
 
   solicitar_consulta(p1,"Gripa",d1);
   atender_consulta(d1);
-
+  // Declaracion variables
+//-----------------------------
   int opcion=-1;
+  int id;
+  int urgencia;
+  char nombre[40];
+  //-------------------------------
 
   while (opcion != 6)
   {
@@ -50,7 +55,14 @@ int main(){
     switch (opcion)
     {
     case 0:
-    printf("Dame los datos del paciente\n");
+    id = 0;
+    urgencia=-1;
+    printf("Dame los datos del paciente: id nombre urgencia\n");
+
+    scanf("%d %s %d",&id,&nombre,&urgencia);
+
+    printf("Su id es %d\n",id);
+
 
       
       break;
