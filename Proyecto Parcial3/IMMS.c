@@ -56,6 +56,7 @@ int main(){
       break;
     case 1:
     printf("Caso 1\n");
+    // Que te de a elegir que especialidad va a atender y que atienda el doctor más ocupado
       
       break;
     case 2:
