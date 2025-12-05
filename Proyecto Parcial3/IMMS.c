@@ -43,19 +43,27 @@ int main(){
     printf("Bienvenido al IMMS\n En que te puedo ayudar?\n");
     printf("[0]- Agendar consulta\n");
     printf("[1]- Atender consulta\n");
-    printf("[2]- Agendar consulta\n");
+    printf("[2]- Lista de doctores disponibles \n"); // Por categoria
+    printf("[3]- Saturacion hospital \n"); 
     scanf("%d",&opcion);
 
     switch (opcion)
     {
     case 0:
+    printf("Dame los datos del paciente\n");
 
       
       break;
     case 1:
+    printf("Caso 1\n");
       
       break;
     case 2:
+    printf("Caso 2\n");
+      
+      break;
+    case 3:
+    printf("Caso 3\n");
       
       break;
     
