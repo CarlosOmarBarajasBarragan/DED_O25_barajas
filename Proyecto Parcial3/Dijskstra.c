@@ -1,18 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "adt_set/set.h"
+
+
 typedef struct Arista {
     int vertice_destino;
     struct Arista *siguiente;
 } Arista;
+
 
 typedef struct Node {
     int dato;
     Arista *arista;
 } Node;
 
-Node* crear_vertice(int dato) {
-    Node *nuevo_nodo = (Node*)malloc(sizeof(Vertice));
+
+
+boolean compareNode(void * t1, void * t2) {
+  char *c1 = (char *)t1;
+  char *c2 = (char *)t2;
+  printf("comparing %s with %s\n", c1, c2);
+  return strcmp(c1, c2) == 0;
+}
+
+void printNode(void * node){
+
+}
+
+Node* crear_node(int dato) {
+    Node *nuevo_nodo = (Node*)malloc(sizeof(Node));
     if (nuevo_nodo != NULL) {
         nuevo_nodo->dato = dato;
         nuevo_nodo->arista = NULL;
@@ -20,8 +37,9 @@ Node* crear_vertice(int dato) {
     return nuevo_nodo;
 }
 
+void agregar_arista(Node **grafo, int origen, int destino) {
+    if (grafo[origen] == NULL) return;
 
-void agregar_arista(Vertice **grafo, int origen, int destino) {
     Arista *nueva_arista = (Arista*)malloc(sizeof(Arista));
     if (nueva_arista != NULL) {
         nueva_arista->vertice_destino = destino;
@@ -30,43 +48,73 @@ void agregar_arista(Vertice **grafo, int origen, int destino) {
     }
 }
 
-void imprimir_grafo(Nodo **grafo, int num_nodos) {
+void imprimir_grafo(Node **grafo, int num_nodos) {
     for (int i = 0; i < num_nodos; i++) {
-        printf("Nodo %d: ", i);
+        printf("Nodo %d (Dato %d): ", i, grafo[i]->dato);
         Arista *actual = grafo[i]->arista;
         while (actual != NULL) {
-            printf("%d -> ", actual->vertice_destino);
+            printf(" -> %d", actual->vertice_destino);
             actual = actual->siguiente;
         }
-        printf("NULL\n");
+        printf(" -> NULL\n");
     }
 }
 
-int main() {
-    int num_vertices = 4;
+void shortest(set * way, Node * source, Node * destino){
+    way = set_create();
 
-    
-    Vertice **grafo = (Vertice**)malloc(num_vertices * sizeof(Vertice*));
-    for (int i = 0; i < num_vertices; i++) {
-        grafo[i] = crear_vertice(i);
+
+
+}
+
+void liberar_grafo(Node **grafo, int num_nodos) {
+    for (int i = 0; i < num_nodos; i++) {
+        Arista *actual = grafo[i]->arista;
+        while (actual != NULL) {
+            Arista *temp = actual;
+            actual = actual->siguiente;
+            free(temp); 
+        }
+        free(grafo[i]); 
+    }
+    free(grafo); 
+}
+
+int main() {
+    int num_nodes = 4; 
+
+    Node **grafo = (Node**)malloc(num_nodes * sizeof(Node*));
+    if (grafo == NULL) return 1; 
+
+    for (int i = 0; i < num_nodes; i++) {
+        grafo[i] = crear_node(i);
     }
 
-    
-    agregar_arista(grafo, 1, 2);
+    agregar_arista(grafo, 0, 1);
+    agregar_arista(grafo, 0, 2);
+    agregar_arista(grafo, 0, 3);
+
+
+    agregar_arista(grafo, 1, 0);
     agregar_arista(grafo, 1, 3);
-    agregar_arista(grafo, 1, 4);
-    agregar_arista(grafo, 2, 1);
-    agregar_arista(grafo, 2, 4);
+
+
+    agregar_arista(grafo, 2, 0);
+    agregar_arista(grafo, 2, 3);
+
+
+    agregar_arista(grafo, 3, 0);
     agregar_arista(grafo, 3, 1);
-    agregar_arista(grafo, 3, 4);
-    agregar_arista(grafo, 4, 1);
-    agregar_arista(grafo, 4, 2);
-    agregar_arista(grafo, 4, 3);
+    agregar_arista(grafo, 3, 2);
 
-    // Imprimir el grafo
-    imprimir_grafo(grafo, num_vertices);
 
-    // Liberar memoria (no mostrado en este ejemplo para brevedad)
+    imprimir_grafo(grafo, num_nodes);
+
+     
+    
+
+    
+    liberar_grafo(grafo, num_nodes);
     
     return 0;
 }
