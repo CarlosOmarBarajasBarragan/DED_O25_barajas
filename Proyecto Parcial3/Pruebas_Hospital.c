@@ -5,6 +5,7 @@
 // .h
 #include "Hospital.h"
 
+#include "adt_list/list.h"
 #include "adt_stack/stack.h"
 #include "adt_map/map.h"
 #include "adt_queue/queue.h"
@@ -63,6 +64,37 @@ doctor * create_doctor(int id, char name[], char especialidad[]){
     return nuevo_doctor;
 }
 
+
+void registrar_doctor(hospital_manager * manager, doctor * D) {
+    char * esp = D->especialidad;
+    
+    // Obtenemos la lista del mapa
+    List * lista = (List *) map_get(manager->lista_doctores, esp);
+
+    if (lista == NULL) {
+        printf("\nNo existe %s, creando la lista...\n", esp);
+        List * nuevaLista = list_create();
+        list_add(nuevaLista, D);
+        map_put(manager->lista_doctores, esp, nuevaLista);
+    } else {
+        printf("\nYa existe %s, guardando doctor...\n", esp);
+        list_add(lista, D);
+    }
+}
+
+
+/*
+void registrar_doctor(hospital_manager * manager, doctor * D) {
+    if (D == NULL) {
+        printf("Error, Doctor no valido\n");
+        return;
+    }
+
+    char * esp = D->especialidad;
+    map_put(manager->lista_doctores, esp, D);
+    printf("Doctor %s registrado en %s\n", D->name, esp);
+}*/
+/*
 void registrar_doctor(hospital_manager * manager, doctor * D) {
     char * esp = D->especialidad;
     queue * q = (queue *) map_get(manager->lista_doctores, esp);
@@ -76,7 +108,7 @@ void registrar_doctor(hospital_manager * manager, doctor * D) {
         printf("\nYa existe %s, guardando doctor\n", esp);
         queue_enqueue(q, D);
     }
-}
+}*/
 
 
 hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compare){
@@ -110,10 +142,10 @@ void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager HM) 
 void agendar_consulta(paciente * P,char padecimiento[],hospital_manager HM){
     strcpy(P->padecimiento, padecimiento);
 
-     queue_enqueue(D->fila_pacientes, P);
+     //queue_enqueue(D->fila_pacientes, P);
 
-    printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
-            P->name, P->padecimiento, D->name); // aqui se cambia con el manager
+   // printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
+    //        P->name, P->padecimiento, D->name); // aqui se cambia con el manager
     return;
 
 }

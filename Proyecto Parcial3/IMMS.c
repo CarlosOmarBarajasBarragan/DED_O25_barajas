@@ -4,6 +4,7 @@
 
 // -h
 #include "Hospital.h"
+
 int wordHash(void *t) {
   char *key = (char *)t;
   int i, hash = 0;
@@ -40,7 +41,7 @@ int main(){
     registrar_doctor(IMSS, d3);
     registrar_doctor(IMSS, d4);
     registrar_doctor(IMSS, d5);
-
+/*
   solicitar_consulta(p1,"Anemia",d1);
 
   atender_consulta(d1);
@@ -49,6 +50,8 @@ int main(){
 
   solicitar_consulta(p1,"Gripa",d1);
   atender_consulta(d1);
+*/
+
   // Declaracion variables
 //-----------------------------
   int opcion=-1;

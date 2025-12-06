@@ -63,7 +63,7 @@ doctor * create_doctor(int id, char name[], char especialidad[]){
     return nuevo_doctor;
 }
 
-vvoid registrar_doctor(hospital_manager * manager, doctor * D) {
+void registrar_doctor(hospital_manager * manager, doctor * D) {
     if (D == NULL) {
         printf("Error, Doctor no valido\n");
         return;
