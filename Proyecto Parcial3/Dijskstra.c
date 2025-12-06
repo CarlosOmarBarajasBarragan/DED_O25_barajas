@@ -73,6 +73,7 @@ void shortest(Node * source, Node * destino, int num_nodes){
 
     source->distancia_minima=0;
     source->predecesor=NULL;
+    stack * display = stack_create();
 
 
     pq * finder = pq_create(num_nodes,compareNode);
@@ -122,9 +123,13 @@ void shortest(Node * source, Node * destino, int num_nodes){
     printf("Se llego del nodo %s al nodo %s por la ruta: \n",source->dato,final->dato);
 
     while(final != NULL){
-        printf(" %s <-",final->dato);
+        stack_push(display,final->dato);
         final = final->predecesor;
         }
+    while(stack_size(display) != 0){
+        char * room = stack_pop(display);
+        printf("%s ->",room);
+    }
         printf(" NULL\n");
 
     }
