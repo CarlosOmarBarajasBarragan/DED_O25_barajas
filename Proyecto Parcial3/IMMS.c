@@ -33,6 +33,8 @@ int main(){
     doctor * d4 = create_doctor(4, "Dra. Polo", "Psiquiatria"); 
     doctor * d5 = create_doctor(5, "Dr. Oogway", "General");
 
+    
+
     registrar_doctor(IMSS, d1);
     registrar_doctor(IMSS, d2);
     registrar_doctor(IMSS, d3);

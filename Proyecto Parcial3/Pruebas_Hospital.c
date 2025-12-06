@@ -36,7 +36,7 @@ struct Hospital_Manager_str
     
 };
 // Declaraciones de las funciones
-void agendar_consulta(paciente * P, char padecimiento[], doctor * D);
+void agendar_consulta(paciente * P,char padecimiento[],hospital_manager HM);
 //---------------------------------
 
 // Creacion de nodos
