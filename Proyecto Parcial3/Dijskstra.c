@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "adt_set/set.h"
+#include "adt_pq/pq.h"
 
 
 typedef struct Conexion {
@@ -14,8 +14,9 @@ typedef struct Conexion {
 typedef struct Node {
     int dato;
     int distancia_minima;
-    Node *predecesor;
-    Conexion *arista;
+    int visitado;
+    struct Node *predecesor;
+    Conexion * conexiones;
 } Node;
 
 
@@ -26,18 +27,13 @@ int compareNode(void * v1, void * v2) {
   return N1->distancia_minima - N2->distancia_minima;
 }
 
-void printNode(void * v){
-    Node * node = (Node*)v;
-
-    printf("%d",node->dato);
-
-}
 
 Node* crear_node(int dato) {
     Node *nuevo_nodo = (Node*)malloc(sizeof(Node));
     if (nuevo_nodo != NULL) {
         nuevo_nodo->dato = dato;
-        nuevo_nodo->arista = NULL;
+        nuevo_nodo->conexiones = NULL;
+        nuevo_nodo->visitado=0;
 
         nuevo_nodo->distancia_minima=999;
         nuevo_nodo->predecesor=NULL;
@@ -52,31 +48,63 @@ void agregar_conexion(Node **grafo, int origen, int destino, int costo) {
     if (nueva_conexion != NULL) {
         nueva_conexion->nodo_destino = destino;
         nueva_conexion->costo = costo;
-        nueva_conexion->siguiente = grafo[origen]->arista;
-        grafo[origen]->arista = nueva_conexion;
+        nueva_conexion->siguiente = grafo[origen]->conexiones;
+        grafo[origen]->conexiones = nueva_conexion;
     }
 }
 
 void imprimir_grafo(Node **grafo, int num_nodos) {
     for (int i = 0; i < num_nodos; i++) {
         printf("Nodo %d (Dato %d): ", i, grafo[i]->dato);
-        Conexion *actual = grafo[i]->arista;
+        Conexion *actual = grafo[i]->conexiones;
         while (actual != NULL) {
-            printf(" -> %d", actual->nodo_destino);
+            printf("{%d,%d}", actual->nodo_destino,actual->costo);
             actual = actual->siguiente;
         }
         printf("\n");
     }
 }
 
-void shortest(Node * source, Node * destino){
+void shortest(Node * source, Node * destino, int num_nodes){
 
     source->distancia_minima=0;
     source->predecesor=NULL;
 
-    set * way = set_create(compareNode,printNode);
+    pq * finder = pq_create(num_nodes,compareNode);
 
-    set_add(way,source);
+    pq_offer(finder,source);
+
+    while(!pq_size(finder) == 0){
+        Node * curr = pq_poll(finder);
+        if(compareNode(curr,destino) == 0){
+            printf("No nos movimos, nuestro destino era igual al origen\n");
+        }
+
+        if(curr->visitado==1){
+            continue;
+        }
+        else{
+            curr->visitado=1;
+        }
+
+        Conexion * way = curr->conexiones;
+
+        while(way != NULL){
+            Node * Vecino = way->nodo_destino;
+
+            if(curr->distancia_minima != 999){
+                int nueva_distancia = curr->distancia_minima + way->costo;
+
+                if(nueva_distancia < Vecino->distancia_minima){
+                    Vecino->distancia_minima=nueva_distancia;
+                    Vecino->predecesor=curr;
+                    pq_offer(finder,Vecino);
+                }
+            }
+            way=way->siguiente
+
+        }
+    }
     
 
 
@@ -84,7 +112,7 @@ void shortest(Node * source, Node * destino){
 
 void liberar_grafo(Node **grafo, int num_nodos) {
     for (int i = 0; i < num_nodos; i++) {
-        Conexion *actual = grafo[i]->arista;
+        Conexion *actual = grafo[i]->conexiones;
         while (actual != NULL) {
             Conexion *temp = actual;
             actual = actual->siguiente;
