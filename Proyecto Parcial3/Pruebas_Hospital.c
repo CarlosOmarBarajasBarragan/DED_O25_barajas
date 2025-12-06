@@ -52,15 +52,30 @@ paciente * create_paciente(int id,char nombre[],int urgencia){
     return nuevo_paciente;
 }
 
-doctor * create_doctor(int id,char name[]){
-    doctor * nuevo_doctor = (doctor*) malloc(sizeof(doctor));
+doctor * create_doctor(int id, char name[], char especialidad[]){
+    doctor * nuevo_doctor = (doctor*) malloc(sizeof(struct doctor_str));
 
-    nuevo_doctor->id=id;
-    strcpy(nuevo_doctor->name,name);
+    nuevo_doctor->id = id;
+    strcpy(nuevo_doctor->name, name);
+    strcpy(nuevo_doctor->especialidad, especialidad);
 
     nuevo_doctor->fila_pacientes = queue_create();
     return nuevo_doctor;
+}
 
+void registrar_doctor(hospital_manager * manager, doctor * D) {
+    char * esp = D->especialidad;
+    queue * q = (queue *) map_get(manager->lista_doctores, esp);
+
+    if (q == NULL) {
+        printf("\nNo existe %s, creando la lista\n", esp);
+        queue * nuevaQ = queue_create();
+        queue_enqueue(nuevaQ, D);
+        map_put(manager->lista_doctores, esp, nuevaQ);
+    } else {
+        printf("\nYa existe %s, guardando doctor\n", esp);
+        queue_enqueue(q, D);
+    }
 }
 
 
