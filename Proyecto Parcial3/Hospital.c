@@ -63,19 +63,15 @@ doctor * create_doctor(int id, char name[], char especialidad[]){
     return nuevo_doctor;
 }
 
-void registrar_doctor(hospital_manager * manager, doctor * D) {
-    char * esp = D->especialidad;
-    queue * q = (queue *) map_get(manager->lista_doctores, esp);
-
-    if (q == NULL) {
-        printf("\nNo existe %s, creando la lista\n", esp);
-        queue * nuevaQ = queue_create();
-        queue_enqueue(nuevaQ, D);
-        map_put(manager->lista_doctores, esp, nuevaQ);
-    } else {
-        printf("\nYa existe %s, guardando doctor\n", esp);
-        queue_enqueue(q, D);
+vvoid registrar_doctor(hospital_manager * manager, doctor * D) {
+    if (D == NULL) {
+        printf("Error, Doctor no valido\n");
+        return;
     }
+
+    char * esp = D->especialidad;
+    map_put(manager->lista_doctores, esp, D);
+    printf("Doctor %s registrado en %s\n", D->name, esp);
 }
 
 
