@@ -70,6 +70,7 @@ void shortest(Node * source, Node * destino, int num_nodes){
     source->distancia_minima=0;
     source->predecesor=NULL;
 
+
     pq * finder = pq_create(num_nodes,compareNode);
 
     pq_offer(finder,source);
@@ -101,12 +102,23 @@ void shortest(Node * source, Node * destino, int num_nodes){
                     pq_offer(finder,Vecino);
                 }
             }
-            way=way->siguiente
+            way=way->siguiente;
 
         }
     }
-    
 
+    Node * final = destino;
+
+    if(final->distancia_minima == 999){
+        printf("No hay manera de llegar de %d a %d",source->dato,final->dato);
+    }
+    else{
+    printf("Se llegó del nodo %d al nodo %d por la ruta: \n",source->dato,final->dato);
+
+    while(final != NULL){
+        printf(" %d <-",final->dato);
+        final = final->predecesor;
+    }
 
 }
 
@@ -152,6 +164,10 @@ int main() {
 
 
     imprimir_grafo(grafo, num_nodes);
+
+    shortest(grafo[0],grafo[1],4);
+
+    
 
      
     
