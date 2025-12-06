@@ -93,12 +93,12 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
 /* En lugar de fila_especialista puede recibir puntero a su doctor */
 
 
-void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) { // hospital_manager HM
+void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager HM) { // hospital_manager HM
 
     if (P->urgencia <= 5)
     {// Atender consulta normal, no ocupa urgencia
         
-        agendar_consulta(P,padecimiento,D);
+        agendar_consulta(P,padecimiento,HM);
         return;
         
     }else{
@@ -107,7 +107,7 @@ void solicitar_consulta(paciente * P, char padecimiento[], doctor * D) { // hosp
     
 }
 
-void agendar_consulta(paciente * P,char padecimiento[],doctor * D){
+void agendar_consulta(paciente * P,char padecimiento[],hospital_manager HM){
     strcpy(P->padecimiento, padecimiento);
 
      queue_enqueue(D->fila_pacientes, P);
