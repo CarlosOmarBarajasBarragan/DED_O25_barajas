@@ -4,13 +4,12 @@
 
 // -h
 #include "Hospital.h"
-
 int wordHash(void *t) {
   char *key = (char *)t;
   int i, hash = 0;
-  for (i = 0; i < strlen(key); i++) 
-  {
-    hash += (key[i] - 'a');
+  for (i = 0; i < strlen(key); i++) {
+    
+    hash += key[i]; 
   }
   return hash;
 }
@@ -72,7 +71,7 @@ int main(){
     urgencia=-1;
     printf("Dame los datos del paciente: id nombre urgencia\n");
 
-    scanf("%d %s %d",&id,&nombre,&urgencia);
+    scanf("%d %s %d",&id,nombre,&urgencia);
 
     printf("Su id es %d\n",id);
 

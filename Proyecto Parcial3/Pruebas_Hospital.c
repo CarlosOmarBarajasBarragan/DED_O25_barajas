@@ -85,6 +85,7 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
    nuevo_hospital_manager->lista_doctores=map_create(m,hash,compare);
    nuevo_hospital_manager->lista_urgencias=pq_create(m,compare);
    // Falta el grafo 
+   return nuevo_hospital_manager;
 }
 
 
