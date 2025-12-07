@@ -10,16 +10,16 @@ typedef struct Node Node;
 typedef struct Conexion {
     Node * nodo_destino;
     int costo;
-    struct Conexion *siguiente;
+    struct Conexion *siguiente; //Siguiente conexion, siguiente eslabon
 } Conexion;
 
 
 typedef struct Node {
     char * dato;
-    int distancia_minima;
+    int distancia_minima; 
     int visitado;
-    struct Node *predecesor;
-    Conexion * conexiones;
+    struct Node *predecesor; //Crear el camino de nodos
+    Conexion * conexiones; // Arreglo de conexiones
 } Node;
 
 
@@ -155,10 +155,10 @@ int main() {
     Node **grafo = (Node**)malloc(num_nodes * sizeof(Node*));
     if (grafo == NULL) return 1; 
 
-    char * name1 = "Sala0";
-    char * name2 = "Sala1";
-    char * name3 = "Sala2";
-    char * name4 = "Sala3";
+    char * name1 = "Sala 0";
+    char * name2 = "Sala 1";
+    char * name3 = "Sala 2";
+    char * name4 = "Sala 3";
 
     
     grafo[0] = crear_node(name1);
@@ -169,7 +169,7 @@ int main() {
 
     agregar_conexion(grafo[0], grafo[1],10);
     agregar_conexion(grafo[0], grafo[2],10);
-    agregar_conexion(grafo[0], grafo[3],1);
+    agregar_conexion(grafo[0], grafo[3],10);
 
 
     agregar_conexion(grafo[1], grafo[0],10);
@@ -181,13 +181,13 @@ int main() {
 
 
     agregar_conexion(grafo[3], grafo[0],10);
-    agregar_conexion(grafo[3], grafo[1],1);
+    agregar_conexion(grafo[3], grafo[1],10);
     agregar_conexion(grafo[3], grafo[2],10);
 
 
     imprimir_grafo(grafo, num_nodes);
 
-    shortest(grafo[0],grafo[1],4);
+    shortest(grafo[1],grafo[0],4);
 
     
     liberar_grafo(grafo, num_nodes);
