@@ -105,3 +105,10 @@ void queue_destroy(queue * Q) {
     Q->size = 0;
     free(Q);
 };
+
+int queue_is_empty(queue * q) {
+    if (q == NULL) return 1;
+
+    return q->size == 0;
+
+}

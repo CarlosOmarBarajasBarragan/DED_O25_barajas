@@ -40,9 +40,17 @@ struct Hospital_Manager_str
 // Declaraciones de las funciones
 void agendar_consulta(paciente * P,char padecimiento[],hospital_manager * HM);
 doctor * Doc_menos_ocupado(hospital_manager * HM, char * especialidad);
+doctor * Doc_mas_ocupado(hospital_manager * HM,char * especialidad);
 //------------------------------------------------------------------------------
 
-
+// Funciones extras
+void limpiar() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 //-------------------------------------------------------------------
 // Funciones de crear y registrar
 //-------------------------------------------------------------------
@@ -169,10 +177,17 @@ void atender_urgencia(hospital_manager * h) {
 }
 
 
-void atender_consulta(doctor * D) {
+void atender_consulta(hospital_manager * HM,char * especialidad) {
+
+    doctor * D = Doc_mas_ocupado(HM,especialidad);
+    
     paciente * atendiendo = (paciente *) queue_dequeue(D->fila_pacientes);
 
-    if (atendiendo == NULL) return; 
+    if (atendiendo == NULL){
+        printf("El doctor %s no tiene pacientes\n",D->name);
+
+        return;
+    }  
 
     char ultima_visita[40];
     void * dato = NULL;
@@ -189,11 +204,12 @@ void atender_consulta(doctor * D) {
         printf("La ultima visita de %s tenia: %s\n", atendiendo->name, ultima_visita);
         
     } else {
-        printf("Sin historial medico\n");
+        printf("Nuevo paciente. Sin historial medico\n");
     }
     char * visita_actual = strdup(atendiendo->padecimiento);
     stack_push(atendiendo->historial_medico, visita_actual);
-    printf("%s ha sido atendido\n", atendiendo->name);
+    printf("%s ha sido atendido de su enfermedad\n", atendiendo->name);
+    printf("Todo gracias al doctor: %s",D->name);
 }
 
 // Funcion aux
@@ -228,6 +244,38 @@ doctor * Doc_menos_ocupado(hospital_manager * HM, char * especialidad) {
     return doctor_menos_ocupado;
 }
 
+doctor * Doc_mas_ocupado(hospital_manager * HM,char * especialidad){
+
+    List * lista = (List *) map_get(HM->lista_doctores, especialidad);
+
+    if (lista == NULL) {
+        printf("No hay doctores registrados en la especialidad: %s.\n", especialidad);
+        return NULL;
+    }
+
+    doctor * doctor_mas_ocupado = NULL;
+    int max_pacientes = -1; 
+
+    doctor * doc = (doctor *) list_first(lista);
+    
+    while (doc != NULL) {
+        // tamaño de la cola de pacientes del doctor actual
+        int pacientes_en_cola = queue_size(doc->fila_pacientes); 
+
+        // Entra el primer caso y compara con el maximo
+        if (doctor_mas_ocupado == NULL || pacientes_en_cola > max_pacientes) {
+            max_pacientes = pacientes_en_cola;
+            doctor_mas_ocupado = doc;
+        }
+
+        // Mueve la lista
+        doc = (doctor *) list_next(lista);
+    }
+    
+    return doctor_mas_ocupado;
+
+}
+
 
 
 //-------------------------------------------------------------------
@@ -254,3 +302,7 @@ void mostrar_doctores_por_especialidad(hospital_manager * HM, char * especialida
         doc = (doctor *) list_next(lista); // Pide el siguiente
     }
 }
+//-------------------------------------
+// Funciones de destroy
+//-------------------------------------
+

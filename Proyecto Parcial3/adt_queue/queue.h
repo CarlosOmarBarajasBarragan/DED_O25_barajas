@@ -25,4 +25,6 @@ void * queue_peek(queue*);
 
 void queue_destroy(queue*);
 
+int queue_is_empty(queue * q);
+
 #endif

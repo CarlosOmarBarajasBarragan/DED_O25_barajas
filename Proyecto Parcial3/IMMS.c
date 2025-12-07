@@ -22,10 +22,11 @@ boolean wordEquals(void * t1, void * t2) {
   return strcmp(c1, c2) == 0;
 }
 
-int main(){
-  paciente * p1 = create_paciente(01,"Jorge",3);
 
-  
+
+
+int main(){
+
   hospital_manager * IMSS = create_hospital_manager(17, wordHash, wordEquals);
 
     doctor * d1 = create_doctor(1, "Dr. Simi", "General");
@@ -33,7 +34,7 @@ int main(){
     doctor * d3 = create_doctor(3, "Dr. Strange", "Cirujano");
     doctor * d4 = create_doctor(4, "Dra. Polo", "Psiquiatria"); 
     doctor * d5 = create_doctor(5, "Dr. Oogway", "General");
-    d
+  
 
     
 
@@ -43,17 +44,30 @@ int main(){
     registrar_doctor(IMSS, d4);
     registrar_doctor(IMSS, d5);
 
+    printf("\n");
+    /* Pruebas--------------------
+
     mostrar_doctores_por_especialidad(IMSS,"General");
 
+    printf("\n");
+    paciente * p1 = create_paciente(01,"Jorge",3);
+
     solicitar_consulta(p1,"General",IMSS);
+
+    printf("\n");
+    atender_consulta(IMSS,"General");
+    */
     getchar();
+    limpiar();
 
   // Declaracion variables
 //-----------------------------
   int opcion=-1;
-  int id;
+  int id_counter=100;
   int urgencia;
-  char nombre[40];
+  char name[40];
+  char padecimiento[40]; // Usado como especialidad
+  char buffer[40];
   //-------------------------------
 
   while (opcion != 6)
@@ -61,22 +75,18 @@ int main(){
     printf("Bienvenido al IMMS\n En que te puedo ayudar?\n");
     printf("[0]- Agendar consulta\n");
     printf("[1]- Atender consulta\n");
-    printf("[2]- Lista de doctores disponibles \n"); // Por categoria
-    printf("[3]- Saturacion hospital \n"); 
+    printf("[2]- Atender urgencia\n");
+    printf("[3]- Lista de doctores disponibles por area \n"); // Por categoria
+    printf("[4]- Saturacion hospital \n"); 
+    printf("[5]- Dar de alta doctor \n"); 
+    printf("[6]- Salir \n"); 
     scanf("%d",&opcion);
 
     switch (opcion)
     {
     case 0:
-    id = 0;
-    urgencia=-1;
-    printf("Dame los datos del paciente: id nombre urgencia\n");
-
-    scanf("%d %s %d",&id,nombre,&urgencia);
-
-    printf("Su id es %d\n",id);
-
-
+    
+      printf("Caso 1\n");
       
       break;
     case 1:
@@ -92,6 +102,22 @@ int main(){
     printf("Caso 3\n");
       
       break;
+    case 4:
+    printf("Caso 4\n");
+      
+      break;
+    case 5:
+    printf("Caso 5\n");
+      
+      break;
+    case 6:
+      printf("\nPresione enter para demoler el hospital");
+      getchar(); 
+      getchar(); 
+      limpiar();
+      //destroy_hospital_manager(IMSS);  
+      break;
+    
     
     default:
       break;
