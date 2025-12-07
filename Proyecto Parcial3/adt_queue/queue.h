@@ -15,7 +15,7 @@ queue * queue_create();
 
 int queue_size(queue*);
 
-boolean queue_isEmpty(queue*);
+boolean queue_isEmpty(queue* Q);
 
 void queue_enqueue(queue*,void*);
 
@@ -25,6 +25,6 @@ void * queue_peek(queue*);
 
 void queue_destroy(queue*);
 
-int queue_is_empty(queue * q);
+
 
 #endif

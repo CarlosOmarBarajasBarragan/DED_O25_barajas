@@ -23,6 +23,8 @@ typedef boolean (*CompareFunc)(void * t1, void * t2);
 // Funciones del archivo c
 void limpiar();
 
+void pausa();
+
 paciente * create_paciente(int id,char nombre[],int urgencia);
 
 doctor * create_doctor(int id, char name[], char especialidad[]);
@@ -33,11 +35,13 @@ void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager * HM
 
 void atender_consulta(hospital_manager * HM,char * especialidad);
 
+void atender_urgencia(hospital_manager * h);
+
 void registrar_doctor(hospital_manager * HM, doctor * D);
 
 void mostrar_doctores_por_especialidad(hospital_manager * HM, char * especialidad);
 
-//void destroy_hospital_manager(hospital_manager * hm);
+void destroy_hospital_manager(hospital_manager * hm);
 
 
 #endif

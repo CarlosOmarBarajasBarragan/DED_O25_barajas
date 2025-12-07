@@ -42,7 +42,7 @@ void agendar_consulta(paciente * P,char padecimiento[],hospital_manager * HM);
 doctor * Doc_menos_ocupado(hospital_manager * HM, char * especialidad);
 doctor * Doc_mas_ocupado(hospital_manager * HM,char * especialidad);
 //------------------------------------------------------------------------------
-
+//----------------------------------------
 // Funciones extras
 void limpiar() {
     #ifdef _WIN32
@@ -51,6 +51,13 @@ void limpiar() {
         system("clear");
     #endif
 }
+
+void pausa() {
+    printf("\nPresione enter para continuar...");
+    getchar(); 
+    getchar(); 
+}
+//------------------------------------------
 //-------------------------------------------------------------------
 // Funciones de crear y registrar
 //-------------------------------------------------------------------
@@ -306,3 +313,82 @@ void mostrar_doctores_por_especialidad(hospital_manager * HM, char * especialida
 // Funciones de destroy
 //-------------------------------------
 
+
+// Destruye un Paciente y su historial 
+void destroy_paciente(paciente * p) {
+    if (p == NULL) return;
+
+    if (p->historial_medico != NULL) {
+        
+        while (!stack_is_empty(p->historial_medico)) {
+            char * dato = (char *) stack_pop(p->historial_medico);
+            if (dato != NULL) free(dato); // Liberamos el string (strdup)
+        }
+        
+        stack_destroy(p->historial_medico); 
+    }
+
+    free(p); 
+}
+
+//  Destruye un Doctor y su cola de pacientes
+void destroy_doctor(doctor * d) {
+    if (d == NULL) return;
+
+    if (d->fila_pacientes != NULL) {
+        // Vaciamos la cola de pacientes
+        while (!queue_isEmpty(d->fila_pacientes)) {
+            paciente * p = (paciente *) queue_dequeue(d->fila_pacientes);
+            if (p != NULL) destroy_paciente(p); // Destruimos cada paciente
+        }
+        
+        queue_destroy(d->fila_pacientes); 
+    }
+
+    free(d); // Liberamos al doctor
+}
+
+// Funcion para borrar, por temas de encapsulamiento no podemos acceder al mapa m->M
+// Asi que usamos esta funcion como axuliar el value sabemos que es una lista
+void limpiar_lista_doctores_wrapper(void * value) {
+    List * lista_docs = (List *) value;
+    
+    if (lista_docs != NULL) {
+        
+        doctor * d = (doctor *) list_first(lista_docs);
+        while (d != NULL) {
+            doctor * temp = d;
+            d = (doctor *) list_next(lista_docs); // Avanzamos antes de borrar
+            destroy_doctor(temp); 
+        }
+        
+        list_clean(lista_docs); 
+    }
+}
+
+// Destruir todo
+void destroy_hospital_manager(hospital_manager * hm) {
+    if (hm == NULL) return;
+
+    printf("Iniciando limpieza total del hospital...\n");
+
+    // Destuir el mapa, primero sus elementos
+    map_foreach(hm->lista_doctores, limpiar_lista_doctores_wrapper);
+    
+    map_destroy(hm->lista_doctores);
+
+
+    // Distruir la pq
+    if (hm->lista_urgencias != NULL) {
+        while (!pq_is_empty(hm->lista_urgencias)) {
+            paciente * p = (paciente *) pq_poll(hm->lista_urgencias);
+            if (p != NULL) destroy_paciente(p);
+        }
+        
+        free(hm->lista_urgencias); 
+    }
+
+    // Destruimos lo ultimo
+    free(hm);
+    printf("Hospital destruido y memoria liberada correctamente.\n");
+}
