@@ -5,6 +5,8 @@
 // .h
 #include "Hospital.h"
 
+#include "Dijkstra.h"
+
 #include "adt_list/list.h"
 #include "adt_stack/stack.h"
 #include "adt_map/map.h"

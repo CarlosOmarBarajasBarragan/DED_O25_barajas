@@ -151,7 +151,7 @@ void liberar_grafo(Node **grafo, int num_nodos) {
     }
     free(grafo); 
 }
-
+/*
 int main() {
     int num_nodes = 4; 
 
@@ -197,3 +197,4 @@ int main() {
     
     return 0;
 }
+*/
