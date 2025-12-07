@@ -121,19 +121,28 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
 // Funcion de solicitiar las consultas y atenderlas
 //-------------------------------------------------------------
 
-void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager * HM) { // hospital_manager HM
+void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager * D){// hospital_manager HM
 
     if (P->urgencia <= 5)
     {// Atender consulta normal, no ocupa urgencia
-        
-        agendar_consulta(P,padecimiento,HM);
+        agendar_consulta(P, padecimiento, D);
         return;
-        
-    }else{
-        // Logica de urgencias
     }
-    
+    else
+    {
+        // Guardamos el padecimiento en el paciente
+        strcpy(P->padecimiento, padecimiento);
+
+        // Insertamos al paciente en la cola de urgencias (priority queue)
+        pq_offer(D->lista_urgencias, P);
+
+        printf("El paciente %s fue enviado a urgencias con nivel %d\n",
+                P->name, P->urgencia);
+
+        return;
+    }
 }
+
 
 void agendar_consulta(paciente * P,char padecimiento[],hospital_manager * HM){
     strcpy(P->padecimiento, padecimiento);
