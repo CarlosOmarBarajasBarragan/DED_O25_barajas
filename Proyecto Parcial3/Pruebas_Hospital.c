@@ -104,7 +104,7 @@ void agendar_consulta(paciente * P,char padecimiento[],doctor * D){
 
 void atender_urgencia(hospital_manager * h) {
 
-    // Sacamos al paciente más urgente
+    // Sacamos al paciente mas urgente
     paciente * p = (paciente*) pq_dequeue(h->lista_urgencias);
 
     if (p == NULL) {
