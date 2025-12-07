@@ -8,6 +8,7 @@ typedef int boolean;
 
 typedef int  (*hash_func)(void *);
 typedef boolean (*equals_func)(void *, void *);
+typedef void (*ConsumerFunc)(void * value);
 typedef struct map_str map;
 
 map *  map_create  (int m, hash_func, equals_func);
@@ -15,5 +16,8 @@ int  map_size    (map * m);
 void map_put     (map * m, void * key, void * value);
 boolean map_contains(map * m, void * key);
 void * map_get     (map * m, void * key);
+
+void map_foreach(map * m, ConsumerFunc func);
+void map_destroy(map * m);
 
 #endif /* MAP_H_ */

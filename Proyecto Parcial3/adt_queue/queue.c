@@ -89,16 +89,16 @@ void * queue_peek(queue * Q){
     return data;
 
 };
-void queue_destroy(queue * Q) {
-    if (Q == NULL) {
-        return;
-    }
-    node * current = Q->head;
-    
 
-    node * next_node;
+
+void queue_destroy(queue * Q) {
+    if (Q == NULL) return;
+
+    node * current = Q->head;
+    node * next_node; 
 
     while (current != NULL) {
+        next_node = current->next; 
         free(current);
         current = next_node;
     }

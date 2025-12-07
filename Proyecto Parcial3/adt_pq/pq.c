@@ -140,3 +140,8 @@ int pq_size(pq * q)
 {
   return q->size;
 }
+
+int pq_is_empty(pq * pq) {
+    if (pq == NULL) return 1;
+    return pq->size == 0; // O la logica que uses para saber si está vacia
+}

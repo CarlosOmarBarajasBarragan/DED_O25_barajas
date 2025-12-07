@@ -147,3 +147,32 @@
     }
     return n != NULL ? n->value : NULL;
   }
+
+void map_foreach(map * m, void (*func)(void * value)) {
+    if (m == NULL) return;
+
+    for (int i = 0; i < m->M; i++) {
+        node * n = m->hashTable[i];
+        while (n != NULL) {
+            
+            func(n->value); 
+            n = n->next;
+        }
+    }
+}
+
+
+void map_destroy(map * m) {
+    if (m == NULL) return;
+
+    for (int i = 0; i < m->M; i++) {
+        node * n = m->hashTable[i];
+        while (n != NULL) {
+            node * temp = n;
+            n = n->next;
+            free(temp); 
+        }
+    }
+    free(m->hashTable);
+    free(m);
+}
