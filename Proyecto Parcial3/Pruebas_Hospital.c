@@ -36,10 +36,16 @@ struct Hospital_Manager_str
 
     
 };
+//------------------------------------------------------------------------------
 // Declaraciones de las funciones
-void agendar_consulta(paciente * P,char padecimiento[],hospital_manager HM);
-//---------------------------------
+void agendar_consulta(paciente * P,char padecimiento[],hospital_manager * HM);
+doctor * Doc_menos_ocupado(hospital_manager * HM, char * especialidad);
+//------------------------------------------------------------------------------
 
+
+//-------------------------------------------------------------------
+// Funciones de crear y registrar
+//-------------------------------------------------------------------
 // Creacion de nodos
 paciente * create_paciente(int id,char nombre[],int urgencia){
     paciente * nuevo_paciente = (paciente*) malloc(sizeof(paciente));
@@ -65,50 +71,22 @@ doctor * create_doctor(int id, char name[], char especialidad[]){
 }
 
 
-void registrar_doctor(hospital_manager * manager, doctor * D) {
+void registrar_doctor(hospital_manager * HM, doctor * D) {
     char * esp = D->especialidad;
     
     // Obtenemos la lista del mapa
-    List * lista = (List *) map_get(manager->lista_doctores, esp);
+    List * lista = (List *) map_get(HM->lista_doctores, esp);
 
     if (lista == NULL) {
         printf("\nNo existe %s, creando la lista...\n", esp);
         List * nuevaLista = list_create();
         list_add(nuevaLista, D);
-        map_put(manager->lista_doctores, esp, nuevaLista);
+        map_put(HM->lista_doctores, esp, nuevaLista);
     } else {
         printf("\nYa existe %s, guardando doctor...\n", esp);
         list_add(lista, D);
     }
 }
-
-
-/*
-void registrar_doctor(hospital_manager * manager, doctor * D) {
-    if (D == NULL) {
-        printf("Error, Doctor no valido\n");
-        return;
-    }
-
-    char * esp = D->especialidad;
-    map_put(manager->lista_doctores, esp, D);
-    printf("Doctor %s registrado en %s\n", D->name, esp);
-}*/
-/*
-void registrar_doctor(hospital_manager * manager, doctor * D) {
-    char * esp = D->especialidad;
-    queue * q = (queue *) map_get(manager->lista_doctores, esp);
-
-    if (q == NULL) {
-        printf("\nNo existe %s, creando la lista\n", esp);
-        queue * nuevaQ = queue_create();
-        queue_enqueue(nuevaQ, D);
-        map_put(manager->lista_doctores, esp, nuevaQ);
-    } else {
-        printf("\nYa existe %s, guardando doctor\n", esp);
-        queue_enqueue(q, D);
-    }
-}*/
 
 
 hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compare){
@@ -124,8 +102,11 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
 
 /* En lugar de fila_especialista puede recibir puntero a su doctor */
 
+//-------------------------------------------------------------
+// Funcion de solicitiar las consultas y atenderlas
+//-------------------------------------------------------------
 
-void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager HM) { // hospital_manager HM
+void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager * HM) { // hospital_manager HM
 
     if (P->urgencia <= 5)
     {// Atender consulta normal, no ocupa urgencia
@@ -139,13 +120,22 @@ void solicitar_consulta(paciente * P, char padecimiento[], hospital_manager HM) 
     
 }
 
-void agendar_consulta(paciente * P,char padecimiento[],hospital_manager HM){
+void agendar_consulta(paciente * P,char padecimiento[],hospital_manager * HM){
     strcpy(P->padecimiento, padecimiento);
 
-     //queue_enqueue(D->fila_pacientes, P);
+     
+    doctor * doc = Doc_menos_ocupado(HM,P->padecimiento);
+    
+    if (doc == NULL)
+    {
+        //printf("No hay doctores registrados\n");
+        return;
+    }
+    
+    queue_enqueue(doc->fila_pacientes, P);
 
-   // printf("El paciente: %s con padecimiento: %s, sera atendido con: %s \n", 
-    //        P->name, P->padecimiento, D->name); // aqui se cambia con el manager
+   printf("El paciente: %s con padecimiento: %s, sera atendido por: %s \n", 
+            P->name, P->padecimiento,doc->name); 
     return;
 
 }
@@ -204,4 +194,63 @@ void atender_consulta(doctor * D) {
     char * visita_actual = strdup(atendiendo->padecimiento);
     stack_push(atendiendo->historial_medico, visita_actual);
     printf("%s ha sido atendido\n", atendiendo->name);
+}
+
+// Funcion aux
+doctor * Doc_menos_ocupado(hospital_manager * HM, char * especialidad) {
+    
+    List * lista = (List *) map_get(HM->lista_doctores, especialidad);
+
+    if (lista == NULL) {
+        printf("No hay doctores registrados en la especialidad: %s.\n", especialidad);
+        return NULL;
+    }
+
+    doctor * doctor_menos_ocupado = NULL;
+    int min_pacientes = -1; 
+
+    doctor * doc = (doctor *) list_first(lista);
+    
+    while (doc != NULL) {
+        // tamaño de la cola de pacientes del doctor actual
+        int pacientes_en_cola = queue_size(doc->fila_pacientes); 
+
+        // Entra el primer caso y compara con el minimo
+        if (doctor_menos_ocupado == NULL || pacientes_en_cola < min_pacientes) {
+            min_pacientes = pacientes_en_cola;
+            doctor_menos_ocupado = doc;
+        }
+
+        // Mueve la lista
+        doc = (doctor *) list_next(lista);
+    }
+    
+    return doctor_menos_ocupado;
+}
+
+
+
+//-------------------------------------------------------------------
+// Funciones para imprimir
+//-------------------------------------------------------------------
+
+void mostrar_doctores_por_especialidad(hospital_manager * HM, char * especialidad) {
+    
+    List * lista = (List *) map_get(HM->lista_doctores, especialidad);
+
+    if (lista == NULL) {
+        printf("No hay doctores registrados en %s.\n", especialidad);
+        return;
+    }
+
+    printf("--- Doctores de %s ---\n", especialidad);
+    
+    
+    doctor * doc = (doctor *) list_first(lista);
+    
+    while (doc != NULL) {
+        printf("Nombre: %s, ID: %d\n", doc->name,doc->id); // Ajusta a tus campos
+        
+        doc = (doctor *) list_next(lista); // Pide el siguiente
+    }
 }

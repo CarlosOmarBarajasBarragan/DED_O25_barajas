@@ -29,10 +29,11 @@ int main(){
   hospital_manager * IMSS = create_hospital_manager(17, wordHash, wordEquals);
 
     doctor * d1 = create_doctor(1, "Dr. Simi", "General");
-    doctor * d2 = create_doctor(2, "Dr. House", "Diagnostico");
+    doctor * d2 = create_doctor(2, "Dr. House", "neurologia");
     doctor * d3 = create_doctor(3, "Dr. Strange", "Cirujano");
     doctor * d4 = create_doctor(4, "Dra. Polo", "Psiquiatria"); 
     doctor * d5 = create_doctor(5, "Dr. Oogway", "General");
+    d
 
     
 
@@ -41,16 +42,11 @@ int main(){
     registrar_doctor(IMSS, d3);
     registrar_doctor(IMSS, d4);
     registrar_doctor(IMSS, d5);
-/*
-  solicitar_consulta(p1,"Anemia",d1);
 
-  atender_consulta(d1);
- 
-  getchar();
+    mostrar_doctores_por_especialidad(IMSS,"General");
 
-  solicitar_consulta(p1,"Gripa",d1);
-  atender_consulta(d1);
-*/
+    solicitar_consulta(p1,"General",IMSS);
+    getchar();
 
   // Declaracion variables
 //-----------------------------
