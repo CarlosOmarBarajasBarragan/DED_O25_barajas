@@ -135,6 +135,14 @@ void shortest(Node * source, Node * destino, int num_nodes){
     }
 
     stack_destroy(display);
+    if (finder != NULL) {
+        while (!pq_is_empty(finder)) {
+            Node * n = (Node *) pq_poll(finder);
+            if (n != NULL) free(n);
+        }
+        
+        free(finder); 
+    }
     
 }
 

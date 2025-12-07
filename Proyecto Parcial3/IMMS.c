@@ -2,8 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define QUIROFANOS 0
+#define CONSULTORIOS 1
+#define RECEPCION 2
+#define URGENCIAS 3
+
 // -h
 #include "Hospital.h"
+#include "Dijkstra.h"
 
 int wordHash(void *t) {
   char *key = (char *)t;
@@ -43,6 +49,17 @@ int main(){
     registrar_doctor(IMSS, d3);
     registrar_doctor(IMSS, d4);
     registrar_doctor(IMSS, d5);
+
+    //Inicializacion del grafo
+    int num_nodes = 4; 
+
+    Node **grafo = (Node**)malloc(num_nodes * sizeof(Node*));
+    if (grafo == NULL) return 1; 
+
+    grafo[QUIROFANOS] = crear_node("Quirofanos");
+    grafo[CONSULTORIOS] = crear_node("Consultorios");
+    grafo[RECEPCION] = crear_node("Recepcion");
+    grafo[URGENCIAS] = crear_node("Urgencias");
 
     printf("\n");
     /* Pruebas--------------------
