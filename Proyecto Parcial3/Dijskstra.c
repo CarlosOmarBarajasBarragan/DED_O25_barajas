@@ -133,6 +133,9 @@ void shortest(Node * source, Node * destino, int num_nodes){
         printf(" NULL\n");
 
     }
+
+    stack_destroy(display);
+    
 }
 
 void liberar_grafo(Node **grafo, int num_nodos) {
