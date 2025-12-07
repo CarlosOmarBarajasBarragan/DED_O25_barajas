@@ -80,3 +80,8 @@ void * stack_top(stack *st)
   void * data = st->top->data;
   return data;
 }
+
+int stack_is_empty(stack * s) {
+    if (s == NULL) return 1;     
+    return s->size == 0; 
+}

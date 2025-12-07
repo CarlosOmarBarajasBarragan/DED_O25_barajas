@@ -19,5 +19,7 @@ void * stack_top(stack * st);
 
 int stack_size();
 
+int stack_is_empty(stack * s);
+
 
 #endif
