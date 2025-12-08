@@ -1,15 +1,18 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// .h
-#include "Hospital.h"
 
 #include "adt_list/list.h"
 #include "adt_stack/stack.h"
 #include "adt_map/map.h"
 #include "adt_queue/queue.h"
 #include "adt_pq/pq.h"
+
+
+#include "Dijkstra.h"
+
+
+#include "Hospital.h"
 
 struct paciente_str {
     int id;
@@ -31,10 +34,7 @@ struct Hospital_Manager_str
 {
     map * lista_doctores;
     pq * lista_urgencias;
-    // Falta el grafo 
-    
 
-    
 };
 //------------------------------------------------------------------------------
 // Declaraciones de las funciones
@@ -109,7 +109,7 @@ hospital_manager * create_hospital_manager(int m,HashFunc hash,CompareFunc compa
 
    nuevo_hospital_manager->lista_doctores=map_create(m,hash,compare);
    nuevo_hospital_manager->lista_urgencias=pq_create(m,compare);
-   // Falta el grafo 
+
    return nuevo_hospital_manager;
 }
 
@@ -290,6 +290,53 @@ doctor * Doc_mas_ocupado(hospital_manager * HM,char * especialidad){
     
     return doctor_mas_ocupado;
 
+}
+
+int aux_total_pacientes = 0;
+
+void contar_pacientes_wrapper(void * value) {
+    List * lista_por_especialidad = (List *) value;
+    
+    if (lista_por_especialidad != NULL) {
+        doctor * doc = (doctor *) list_first(lista_por_especialidad);
+        
+        while (doc != NULL) {
+            if (doc->fila_pacientes != NULL) {
+                aux_total_pacientes += queue_size(doc->fila_pacientes);
+            }
+            doc = (doctor *) list_next(lista_por_especialidad);
+        }
+    }
+}
+
+int get_saturacion_consultorios(hospital_manager * HM){
+    if (HM == NULL || HM->lista_doctores == NULL) {
+        return 1; 
+    }
+    aux_total_pacientes = 0;
+
+    map_foreach(HM->lista_doctores, contar_pacientes_wrapper);
+
+    if (aux_total_pacientes == 0) {
+        return 1;
+    }
+    
+    return aux_total_pacientes;
+}
+
+int get_saturacion_urgencias(hospital_manager * HM){
+    
+    if (HM == NULL || HM->lista_urgencias == NULL) {
+        return 1;
+    }
+
+    int cantidad = pq_size(HM->lista_urgencias);
+
+    if (cantidad == 0) {
+        return 1; 
+    }
+
+    return cantidad;
 }
 
 
