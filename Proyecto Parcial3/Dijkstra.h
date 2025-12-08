@@ -29,6 +29,10 @@ Node* crear_node(char * dato);
 
 void agregar_conexion(Node * origen, Node * destino, int costo);
 
+void limpiar_nodo(Node *nodo);
+
+void eliminar_conexiones(Node *nodo);
+
 void imprimir_grafo(Node **grafo, int num_nodos);
 
 void shortest(Node * source, Node * destino, int num_nodes);

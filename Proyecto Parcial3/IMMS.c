@@ -88,9 +88,11 @@ int main(){
   int new_doc_id = 10;
   char doc_name[40];
   char doc_esp[40];
+  int sala_origen;
+  int sala_destino;
   //-------------------------------
 
-  while (opcion != 6)
+  while (opcion != 7)
   {
     printf("Bienvenido al IMMS\n En que te puedo ayudar?\n");
     printf("[0]- Agendar consulta\n");
@@ -99,7 +101,8 @@ int main(){
     printf("[3]- Lista de doctores disponibles por area \n"); // Por categoria
     printf("[4]- Saturacion hospital \n"); 
     printf("[5]- Dar de alta doctor \n"); 
-    printf("[6]- Salir \n"); 
+    printf("[6]- Trasladar paciente \n");
+    printf("[7]- Salir \n"); 
     scanf("%d",&opcion);
 
     switch (opcion)
@@ -171,6 +174,45 @@ int main(){
       
       break;
     case 6:
+        printf("\n--- TRASLADO DE PACIENTE ---\n");
+        printf("Sala de origen: 0- Quirofanos; 1- Consultorios; 2- Recepcion; 3- Urgencias ");
+        scanf("%d", &sala_origen);
+        printf("Sala de destino: 0- Quirofanos; 1- Consultorios; 2- Recepcion; 3- Urgencias ");
+        scanf("%d", &sala_destino);
+
+        limpiar_nodo(grafo[QUIROFANOS]);
+        limpiar_nodo(grafo[CONSULTORIOS]);
+        limpiar_nodo(grafo[RECEPCION]);
+        limpiar_nodo(grafo[URGENCIAS]);
+
+        eliminar_conexiones(grafo[QUIROFANOS]);
+        eliminar_conexiones(grafo[CONSULTORIOS]);
+        eliminar_conexiones(grafo[RECEPCION]);
+        eliminar_conexiones(grafo[URGENCIAS]);
+
+        agregar_conexion(grafo[QUIROFANOS],grafo[CONSULTORIOS],1);
+        agregar_conexion(grafo[QUIROFANOS],grafo[RECEPCION],get_saturacion_consultorios(IMSS));
+        agregar_conexion(grafo[QUIROFANOS],grafo[URGENCIAS],get_saturacion_urgencias(IMSS));
+
+        agregar_conexion(grafo[CONSULTORIOS],grafo[QUIROFANOS],1);
+        agregar_conexion(grafo[CONSULTORIOS],grafo[URGENCIAS],get_saturacion_urgencias(IMSS));
+  
+
+        agregar_conexion(grafo[RECEPCION],grafo[QUIROFANOS],1);
+        agregar_conexion(grafo[RECEPCION],grafo[URGENCIAS],get_saturacion_urgencias(IMSS));
+
+        agregar_conexion(grafo[URGENCIAS],grafo[QUIROFANOS],1);
+        agregar_conexion(grafo[URGENCIAS],grafo[CONSULTORIOS],1);
+        agregar_conexion(grafo[URGENCIAS],grafo[RECEPCION],get_saturacion_consultorios(IMSS));
+
+
+        shortest(grafo[sala_origen],grafo[sala_destino],4);
+        
+        pausa();
+        limpiar();
+      
+    break;  
+    case 7:
       printf("\nPresione enter para demoler el hospital");
       getchar(); 
       getchar(); 

@@ -57,6 +57,29 @@ void agregar_conexion(Node * origen, Node * destino, int costo) {
     }
 }
 
+void limpiar_nodo(Node *nodo) {
+    if (nodo == NULL) return;
+    
+    nodo->distancia_minima = 999; 
+    nodo->visitado = 0;
+    nodo->predecesor = NULL;
+}
+
+void eliminar_conexiones(Node *nodo) {
+    if (nodo == NULL) return;
+
+    Conexion *actual = nodo->conexiones;
+    Conexion *aux;
+
+    while (actual != NULL) {
+        aux = actual;             
+        actual = actual->siguiente; 
+        free(aux);
+    }
+
+    nodo->conexiones = NULL;
+}
+
 void imprimir_grafo(Node **grafo, int num_nodos) {
     for (int i = 0; i < num_nodos; i++) {
         printf("Nodo %d (Dato %s): ", i, grafo[i]->dato);
@@ -119,8 +142,8 @@ void shortest(Node * source, Node * destino, int num_nodes){
     }
     else{
 
-    printf("Con un costo de: %d \n",final->distancia_minima);
-    printf("Se llego del nodo %s al nodo %s por la ruta: \n",source->dato,final->dato);
+    printf("Con un tiempo de: %d \n",final->distancia_minima);
+    printf("Se llego de la sala %s a la sala %s por la ruta: \n",source->dato,final->dato);
 
     while(final != NULL){
         stack_push(display,final->dato);
@@ -137,8 +160,7 @@ void shortest(Node * source, Node * destino, int num_nodes){
     stack_destroy(display);
     if (finder != NULL) {
         while (!pq_is_empty(finder)) {
-            Node * n = (Node *) pq_poll(finder);
-            if (n != NULL) free(n);
+            pq_poll(finder);
         }
         
         free(finder); 
